@@ -7,9 +7,11 @@ target_link_libraries ("${PROJECT_NAME}_interface" INTERFACE seqan3::seqan3)
 target_include_directories ("${PROJECT_NAME}_interface" INTERFACE ../include)
 target_compile_options ("${PROJECT_NAME}_interface" INTERFACE "-pedantic" "-Wall" "-Wextra")
 
-# An object library (without main) to be used in multiple targets.
-add_library ("${PROJECT_NAME}_lib" STATIC fastq_conversion.cpp)
-target_link_libraries ("${PROJECT_NAME}_lib" PUBLIC "${PROJECT_NAME}_interface")
+add_executable (naive_search naive_search.cpp)
+target_link_libraries (naive_search PRIVATE "${PROJECT_NAME}_interface")
 
-add_executable ("${PROJECT_NAME}" main.cpp)
-target_link_libraries ("${PROJECT_NAME}" PRIVATE "${PROJECT_NAME}_lib")
+add_executable (fmindex_construct fmindex_construct.cpp)
+target_link_libraries (fmindex_construct PRIVATE "${PROJECT_NAME}_interface")
+
+add_executable (fmindex_search fmindex_search.cpp)
+target_link_libraries (fmindex_search PRIVATE "${PROJECT_NAME}_interface")
