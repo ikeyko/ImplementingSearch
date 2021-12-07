@@ -13,18 +13,7 @@ struct my_dna4 : seqan3::sequence_file_input_default_traits_dna {
 
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna4> const& ref, std::vector<seqan3::dna4> const& query) {
-    for (int i{0}; i < ref.size() - query.size(); ++i) {
-        bool isQueryFound{true};
-        for (int j{0}; j < query.size(); ++j) {
-            if (ref[i+j] != query[j]) {
-                isQueryFound = false;
-                break;
-            }
-        }
-        if (isQueryFound) {
-            std::cout << "found at : " << i << "\n";
-        }
-    }
+    //!TODO ImplementMe
 }
 
 int main(int, char**) {
@@ -49,7 +38,7 @@ int main(int, char**) {
         queries.push_back(record.sequence());
     }
 
-    //!TODO here adjust the number of searches
+    //!TODO !CHANGEME here adjust the number of searches
     queries.resize(100); // will reduce the amount of searches
 
     //! search for all occurences of queries inside of reference

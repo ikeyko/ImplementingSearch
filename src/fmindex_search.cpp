@@ -42,13 +42,8 @@ int main(int, char**) {
     //!TODO here adjust the number of searches
     queries.resize(100); // will reduce the amount of searches
 
-    auto result = search(queries, index, cfg);
-    for (auto r : result) {
-        auto qid = r.query_id();
-        auto sid = r.reference_id();
-        auto pos = r.reference_begin_position();
-        std::cout << "found at : " << pos << "\n";
-    }
+
+    //!TODO !ImplementMe use the seqan3::search function to search
 
     return 0;
 }
