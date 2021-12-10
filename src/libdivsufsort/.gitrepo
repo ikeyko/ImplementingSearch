@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/y-256/libdivsufsort.git
+	branch = master
+	commit = 5f60d6f026c30fb4ac296f696b3c8b0eb71bd428
+	parent = e13bace5c774cfdd9cd5c3441b699189703d37ab
+	method = merge
+	cmdver = 0.4.3
