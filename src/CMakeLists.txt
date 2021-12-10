@@ -19,4 +19,5 @@ add_executable (fmindex_search fmindex_search.cpp)
 target_link_libraries (fmindex_search PRIVATE "${PROJECT_NAME}_interface")
 
 add_executable (suffixarray_search suffixarray_search.cpp)
+target_include_directories(suffixarray_search PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort/include")
 target_link_libraries (suffixarray_search PRIVATE "${PROJECT_NAME}_interface" divsufsort)

@@ -19,6 +19,7 @@ $ make        # actually builds our softare, repeat this command to recompile yo
 $ ./bin/naive_search       # calls the code in src/naive_search.cpp
 $ ./bin/fmindex_construct  # constructs a fm_index that can be used by fmindex_search
 $ ./bin/fmindex_search     # calls the code in src/fmindex_search.cpp
+$ ./bin/suffixarray_search # calls the code in src/suffixarray_search.cpp
 ```
 
 
@@ -38,7 +39,12 @@ to an fm-index based search.
   + Check out `src/fmindex_search.cpp`. Fill in the `//!TODO !ImplementMe use the seqan3::search function to search`.
   + Look for `//!TODO here adjust the number of searches` to play around with different number of searches.
   + Run `./bin/fmindex_search` for different query sizes and measure the time.
-3. Which search is faster, and by how much?
+3. SuffixArray Search:
+  + Check out `src/suffixarray_search.cpp`. Fill in the `//!TODO !ImplementMe`
+  + Look for `//!TODO here adjust the number of searches` to play around with different number of searches.
+  + Run `./bin/suffixarray_search` for dfferent query sizes and measure the time.
+4. Which search is faster, and by how much?
+  + Write down the times for queries of size: 100 1,000 10,000 100,000 500,000 1,000,000
 
 ### Hints:
   + Look at this tutorial for more information on how seqan3 and the fmindex works: https://docs.seqan.de/seqan/learning-resources/fm_index.html

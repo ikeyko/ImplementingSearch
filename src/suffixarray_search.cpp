@@ -12,29 +12,6 @@ struct my_dna4 : seqan3::sequence_file_input_default_traits_dna {
     using sequence_alphabet = seqan3::dna4;
 };
 
-// prints out all occurences of query inside of ref
-void findOccurences(std::vector<seqan3::dna4> const& ref, std::vector<seqan3::dna4> const& query) {
-    std::string ref_str;
-    ref_str.reserve(ref.size()); // This is not required, but speeds things up
-    for (auto c : ref) {         // Loop over the vector and convert each entry to a char
-        ref_str += c.to_char();
-    }
-//    for (auto 
-    //!TODO Implement me
-    for (int i{0}; i < ref.size() - query.size(); ++i) {
-        bool isQueryFound{true};
-        for (int j{0}; j < query.size(); ++j) {
-            if (ref[i+j] != query[j]) {
-                isQueryFound = false;
-                break;
-            }
-        }
-        if (isQueryFound) {
-            std::cout << "found at : " << i << "\n";
-        }
-    }
-}
-
 int main(int, char**) {
 
     // paths to our files
@@ -63,15 +40,21 @@ int main(int, char**) {
     //!TODO here adjust the number of searches
     queries.resize(100); // will reduce the amount of searches
 
-    // Construct your Suffix Array
-//    std::vector
+    // Array that should hold the future suffix array
+    std::vector<saidx_t> suffixarray;
+    suffixarray.resize(reference.size()); // resizing the array, so it can hold the complete SA
 
-    //! search for all occurences of queries inside of reference
-/*    for (auto& r : reference) {
-        for (auto& q : queries) {
-            findOccurences(r, q);
-        }
-    }*/
+    //!TODO !ImplementMe implement suffix array sort
+    //Hint, if can use libdivsufsort (already integrated in this repo)
+    //      https://github.com/y-256/libdivsufsort
+    //      To make the `reference` compatible with libdivsufsort you can simply
+    //      cast it by calling:
+    //      `sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());`
+
+    for (auto& q : queries) {
+        //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
+        // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
+    }
 
     return 0;
 }
