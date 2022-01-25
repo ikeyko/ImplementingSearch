@@ -22,6 +22,13 @@ int main(int argc, char const* const* argv) {
     auto query_file = std::filesystem::path{};
     parser.add_option(query_file, '\0', "query", "path to the query file");
 
+    try {
+         parser.parse();
+    } catch (seqan3::argument_parser_error const& ext) {
+        seqan3::debug_stream << "Parsing error. " << ext.what() << "\n";
+        return EXIT_FAILURE;
+    }
+
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
     auto query_stream     = seqan3::sequence_file_input{query_file};
