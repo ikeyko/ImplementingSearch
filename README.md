@@ -18,6 +18,9 @@ $ cmake ..    # generates our build system
 $ make        # actually builds our softare, repeat this command to recompile your software
 $ ./bin/naive_search --reference ../data/hg38_partial.fasta.gz --query ../data/illumina_reads_40.fasta.gz       # calls the code in src/naive_search.cpp
 $ ./bin/suffixarray_search --reference ../data/hg38_partial.fasta.gz --query ../data/illumina_reads_40.fasta.gz # calls the code in src/suffixarray_search.cpp
+
+$ ./bin/fmindex_construct --reference ../data/hg38_partial.fasta.gz --index myIndex.index # creates an index, see src/fmindex_construct.cpp
+$ ./bin/fmindex_search --index myIndex.index --query ../data/illumina_reads_40.fasta.gz   # searches by using the fmindex, see src/fmindex_search.cpp
 ```
 
 
