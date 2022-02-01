@@ -38,7 +38,7 @@ int main(int argc, char const* const* argv) {
     }
 
     // loading fm-index into memory
-    using Index = decltype(seqan3::fm_index{std::vector<std::vector<seqan3::dna4>>{}}); // Some hack
+    using Index = decltype(seqan3::fm_index{std::vector<std::vector<seqan3::dna5>>{}}); // Some hack
     Index index; // construct fm-index
     {
         seqan3::debug_stream << "Loading 2FM-Index ... " << std::flush;
