@@ -1,13 +1,18 @@
 # ImplementingSearch
 
-This is a demo/homework to demonstrate the power of SuffixArray and FM-Index based search.
+This is an exercise to demonstrate the power of Suffix-Array and FM-Index based searching.
 
 ## Usage
-You can either start a gitpod instance (very easy):
+For FU-Berlin students I recommend looking [ssh tutorial](https://github.com/seqan/seqan3/wiki/SSH) to log into our compute servers. I recommend using compute12.mi.fu-berlin.de. Also for longer running processes I can advice looking at this [tmux tutorial](https://github.com/seqan/seqan3/wiki/tmux) for some basic instructions.
+
+### Cloning (very cool)
+To checkout the code you can run:
+  + `git clone --recurse-submodules https://github.com/SGSSGene/ImplementingSearch`
+  
+### gitpod:
+Lets say you are not an fu-student and don't have access to an linux machine, you can also use gitpod, which provides an online ide:
   + https://gitpod.io/#https://github.com/SGSSGene/ImplementingSearch
 
-Or you can download this repo (very cool):
-  + `git clone --recurse-submodules https://github.com/SGSSGene/ImplementingSearch`
 
 ## How to build the software
 ```
@@ -48,6 +53,9 @@ to an fm-index based search.
   + Check different query lengths: 40, 60, 80 and 100.
 5. Which search is more memory efficient?
   + Check different query lengths: 40, 60, 80, 100.
+6. FMIndex with errors:
+   Use the pigeon hole principle to search for stuff with up to 2 errors.
+   Very free programming exercise.
 
 ### Hints:
   + Look at this tutorial for more information on how seqan3 and the fmindex works: https://docs.seqan.de/seqan/learning-resources/fm_index.html
