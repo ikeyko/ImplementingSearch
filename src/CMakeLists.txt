@@ -1,7 +1,5 @@
 cmake_minimum_required (VERSION 3.8)
 
-add_subdirectory(libdivsufsort)
-
 # A interface to reuse common properties.
 # You can add more external include paths of other projects that are needed for your project.
 add_library ("${PROJECT_NAME}_interface" INTERFACE)
@@ -19,5 +17,5 @@ add_executable (fmindex_search fmindex_search.cpp)
 target_link_libraries (fmindex_search PRIVATE "${PROJECT_NAME}_interface")
 
 add_executable (suffixarray_search suffixarray_search.cpp)
-target_include_directories(suffixarray_search PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort/include")
+target_include_directories(suffixarray_search PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/../lib/libdivsufsort/include")
 target_link_libraries (suffixarray_search PRIVATE "${PROJECT_NAME}_interface" divsufsort)

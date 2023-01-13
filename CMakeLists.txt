@@ -19,11 +19,6 @@ set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-# Messages
-string (ASCII 27 Esc)
-set (FontBold "${Esc}[1m")
-set (FontReset "${Esc}[m")
-
 # Dependency: SeqAn3.
 find_package (SeqAn3 QUIET REQUIRED HINTS lib/seqan3/build_system)
 
@@ -35,14 +30,5 @@ include (seqan3_require_ccache)
 seqan3_require_ccache ()
 
 # Add the application.
-add_subdirectory (src)
-message (STATUS "${FontBold}You can run `make` to build the application.${FontReset}")
-
-## DOCUMENTATION
-
-add_subdirectory (doc EXCLUDE_FROM_ALL)
-
-## TEST
-
-enable_testing ()
-add_subdirectory (test EXCLUDE_FROM_ALL)
+add_subdirectory(lib/libdivsufsort)
+add_subdirectory(src)
