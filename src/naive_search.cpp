@@ -12,6 +12,7 @@
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dna5> const& query) {
     //!TODO ImplementMe
+    //new comment
 }
 
 int main(int argc, char const* const* argv) {
