@@ -16,7 +16,7 @@ void construct(std::vector<uint32_t>& sa, const std::vector<seqan3::dna5>& text)
 
     sa.clear(); //clears the Suffixarray
 
-    uint32_t length = text.length();
+    uint32_t length = text.size();
 
     // condition that checks, if the text exists
     if (length == 0) return;
