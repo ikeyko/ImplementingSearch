@@ -12,7 +12,15 @@
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dna5> const& query) {
 
-    seqan3::debug_stream << query << '\n';
+    auto res = std::search(std::begin(ref), std::end(ref), std::begin(query), std::end(query));
+    if(res == std::end(ref)) {
+        std::cout << "Couldn't find it.\n";       
+    } else {
+        std::cout << "Found it.\n";
+        std::cout << res << "\n";
+
+    }
+    //seqan3::debug_stream << query << '\n';
     // std::find function call
     /*
     it = std::find (ref.begin(), ref.end(), query);
