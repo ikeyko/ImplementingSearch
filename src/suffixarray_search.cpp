@@ -308,7 +308,7 @@ int main(int argc, char const* const* argv) {
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
 
-    std::string text = "pandapapayat";
+    std::string text = "pandapapayaab";
     std::string query = "pa";
 
  //   std::string text = "hello";
