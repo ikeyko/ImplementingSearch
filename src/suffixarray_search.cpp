@@ -147,12 +147,16 @@ log ("new index"); log(index);  log(" current sa"); log(sa); n();
 log("check new "); log(text[index]); log("with existing"); log(text[sa[m]]); n();
 
         if(text[index] > text[sa[m]]) {
+            log(",");
             sa.insert(sa.begin() + m + 1, index);       log("char inserted >, new sa = "); log(sa);
             lcp.insert(lcp.begin() + m + 1, 1);
         } else if (text[index] < text[sa[m]]){
+            log("-");
             sa.insert(sa.begin() + m, index);           log("char inserted <, new sa = "); log(sa); n();
             lcp.insert(lcp.begin() + m, 0);
-        } else {                                        log ("char found"); log (text[index]); n();
+        } else {
+            log(".");
+                                                    log ("char found"); log (text[index]); n();
                 uint32_t i = 0;
                 while (index + ++i < length){           log ("check next text"); log(text[index + i]); n();
                     if(text[index + i] == text[sa[m]+i]) continue;
