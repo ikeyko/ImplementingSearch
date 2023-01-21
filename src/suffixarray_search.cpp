@@ -144,7 +144,7 @@ log ("new index"); log(index);  log(" current sa"); log(sa); n();
             m = ceil(double(l + r)/2);                  log("-"); log(m); n();
         }
 
-log("check new "); log(text[index]); log("with existing"); log("%"); log(text[sa[m]]); log("+"); n();
+log("check new "); log(text[index]); log("with existing");  n();log("%"); log(text[sa[m]]);  n();log("+"); n();
 log(":");
 if(text[index] > text[sa[m]]) log(" > Ok");
 if (text[index] < text[sa[m]]) log("< Ok");
