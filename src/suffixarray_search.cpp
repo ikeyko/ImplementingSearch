@@ -154,7 +154,7 @@ log("check new "); log(text[index]); log("with existing"); log(text[sa[m]]); n()
             lcp.insert(lcp.begin() + m, 0);
         } else {                                        log ("char found"); log (text[index]); n();
                 uint32_t i = 0;
-                while (index + i++ < length){           log ("check next text"); log(text[index + i]); n();
+                while (index + ++i < length){           log ("check next text"); log(text[index + i]); n();
                     if(text[index + i] == text[sa[m]+i]) continue;
                     if(text[index + i] > text[sa[m]+i]){ log ("mismatch found text ="); log(text[index + i]); log("sa char ="); log(text[sa[m]+i]); n();
                         sa.insert(sa.begin() + m+1, index); log("char inserted >, new sa = "); log(sa); n();
