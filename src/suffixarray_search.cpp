@@ -11,6 +11,133 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
+void construct(std::vector<uint32_t>& sa, const std::string& text) {
+
+    sa.clear(); //clears the Suffixarray
+
+    uint32_t length = text.length();
+
+    // condition that checks, if the text exists
+    if (length == 0) return;
+
+    std::vector<uint32_t> lcp;
+
+    sa.push_back(0);
+    lcp.push_back(0);
+
+    int l,r,m = 0;
+
+
+    for (uint32_t index = 1; index < length; ++index){
+        l = 0;
+        r = sa.size()-1;
+        m = ceil(double(r)/2);
+
+        while (l < r){    
+            
+            if(text[index] > text[sa[m]]) {             
+                l = m;                                  
+            } else if (text[index] < text[sa[m]]){      
+                r = m - 1;                              
+            } else {
+                l = r = m;
+            }                                         
+            m = ceil(double(l + r)/2);                  
+        }
+
+
+        if(text[index] > text[sa[m]]) {
+            sa.insert(sa.begin() + m + 1, index);       
+            lcp.insert(lcp.begin() + m + 1, 1);
+        } else if (text[index] < text[sa[m]]){
+            sa.insert(sa.begin() + m, index);          
+            lcp.insert(lcp.begin() + m, 0);
+        } else {                                       
+                uint32_t i = 0;
+                while (index + i++ < length){           
+                    if(text[index + i] == text[sa[m]+i]) continue;
+                    if(text[index + i] > text[sa[m]+i]){
+                        sa.insert(sa.begin() + m+1, index);
+                        break;
+                    } else {
+                        sa.insert(sa.begin() + m, index);  
+                        break;
+                    }
+                }
+            }
+
+    
+        
+    }
+}
+
+void find(const std::string& query, const std::vector<uint32_t>& sa, const std::string& text, std::vector<uint32_t>& hits) {
+
+    hits.clear();
+    unsigned n = sa.size() - 1;
+
+    if (text.length() == 0) return;
+
+    //if the search character not exist in Alphabet
+    if (query[0] > text[sa[n]]) return;
+    if (query[0] < text[sa[0]]) return;
+
+    unsigned Lp, Rp;
+
+    //looking for right interval bound
+    int left = 0;
+    int right = n+1;
+    int middle;
+
+    while (right - left > 1) {
+        middle = ceil((left + right)/2);
+        if (query[0] >= text[sa[middle]]) left = middle;
+        else right = middle;
+    }
+    Rp = left;
+
+    //looking for left interval bound
+    left = -1;
+    right = Rp;
+
+    while (right - left > 1) {
+
+        middle = ceil((left + right)/2);
+        if (query[0] <= text[sa[middle]]) right = middle;
+        else left = middle;
+    }
+    Lp = right;
+
+    unsigned query_size = query.size();
+    unsigned index = 0; //Suffix index
+
+    while (Rp >= Lp && index < query_size) { //repeat check until full pattern found. Stop if bounds crossed
+        while (Rp >= Lp && query[index] != text[sa[Lp]+index]){ //check left suffix
+            ++Lp; //go to next suffix
+        }
+        //cout<<"Lp= "<<Lp<<endl;
+        while (Rp >= Lp && query[index] != text[sa[Rp]+index]) { //check right suffix
+            --Rp; //go to previous suffix
+        }
+
+
+        if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
+    }
+    while (Rp >= Lp) {
+        hits.push_back(sa[Lp++]); //push every alignment between bounds in vector hits
+    }
+    
+    sort(hits.begin(), hits.end());
+
+    if (hits.size() != 0) {
+        std::cout << query << ": ";
+        for (unsigned i = 0; i < hits.size(); ++i) {
+            std::cout << hits[i] << " ";
+        }
+    }
+}
+
+
 int main(int argc, char const* const* argv) {
     seqan3::argument_parser parser{"suffixarray_search", argc, argv, seqan3::update_notifications::off};
 
@@ -50,7 +177,11 @@ int main(int argc, char const* const* argv) {
     }
 
     //!TODO here adjust the number of searches
-    queries.resize(100); // will reduce the amount of searches
+    //queries.resize(100); // will reduce the amount of searches
+
+    if (queries.size() > 100) {
+        queries.resize(100);    // will reduce the amount of searches
+    }
 
     // Array that should hold the future suffix array
     std::vector<saidx_t> suffixarray;
@@ -67,6 +198,30 @@ int main(int argc, char const* const* argv) {
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
+
+    std::string text = "pandapapayas";
+    std::string query = "pa";
+
+ //   std::string text = "hello";
+
+    std::vector<uint32_t> sa;// = {1,4,6,10,8,3,2,0,5,7,11,9};
+    std::vector<uint32_t> hits;
+
+    construct(sa, text);
+    
+    
+    for (unsigned i = 0; i < sa.size(); ++i) {
+        std::cout << sa[i] << " ";
+    }
+    
+    find(query, sa, text, hits);
+
+    std::cout << query << ": ";
+    for (unsigned i = 0; i < sa.size(); ++i) {
+        std::cout << sa[i] << " ";
+    }
+
+    std::cout<<std::endl;
 
     return 0;
 }
