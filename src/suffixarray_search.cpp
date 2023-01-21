@@ -31,14 +31,12 @@ void construct(std::vector<uint32_t>& sa, const std::vector<seqan3::dna5>& text)
 
     for (uint32_t index = 1; index < length; ++index){
         
-        std::cout<<"for\n";
-            l = 0;
+        
+        l = 0;
         r = sa.size()-1;
         m = ceil(double(r)/2);
 
         while (l < r){    
-            
-            std::cout<<"while\n";
 
             if(text[index] > text[sa[m]]) {             
                 l = m;                                  
@@ -50,7 +48,6 @@ void construct(std::vector<uint32_t>& sa, const std::vector<seqan3::dna5>& text)
             m = ceil(double(l + r)/2);                  
         }
 
-        std::cout<<"if\n";
         if(text[index] > text[sa[m]]) {
             sa.insert(sa.begin() + m + 1, index);       
             lcp.insert(lcp.begin() + m + 1, 1);
