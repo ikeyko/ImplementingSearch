@@ -101,7 +101,7 @@ void log(std::vector<uint32_t>& sa, uint32_t i){
 }
 
 void log(std::vector<uint32_t>& sa){
-    for (unsigned i = 0; i < sa.size(); i++) {
+    for (unsigned i = 0; i < sa.size(); ++i) {
         std::cout << sa[i] << " ";
     }
 }
@@ -144,7 +144,7 @@ log ("new index"); log(index);  log(" current sa"); log(sa); n();
             m = ceil(double(l + r)/2);                  log("-"); log(m); n();
         }
 
-log("check new "); log(text[index]); log("with existing");  n();log("%"); log(text[sa[m]]);  n();log("+"); log(":");
+log("check new "); log(text[index]); log("with existing");  n();log("%"); log(m); log(sa[m]); log(text[sa[m]]);  n();log("+"); log(":");
 if(text[index] > text[sa[m]]) log(" > Ok");
 if (text[index] < text[sa[m]]) log("< Ok");
 if (text[index] == text[sa[m]]) log("== Ok");
