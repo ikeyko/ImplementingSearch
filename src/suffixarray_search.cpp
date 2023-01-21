@@ -313,6 +313,7 @@ int main(int argc, char const* const* argv) {
  //   std::string text = "hello";
 
     std::vector<uint32_t> sa;// = {1,4,6,10,8,3,2,0,5,7,11,9};
+    sa.resize(text.length());
     std::vector<uint32_t> hits;
     std::cout<<"go to construct\n";
     construct(sa, text);
