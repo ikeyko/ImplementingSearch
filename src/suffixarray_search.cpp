@@ -101,7 +101,7 @@ void log(std::vector<uint32_t>& sa, uint32_t i){
 }
 
 void log(std::vector<uint32_t>& sa){
-    for (unsigned i = 0; i < sa.size(); ++i) {
+    for (unsigned i = 0; i < sa.size(); i++) {
         std::cout << sa[i] << " ";
     }
 }
@@ -144,8 +144,7 @@ log ("new index"); log(index);  log(" current sa"); log(sa); n();
             m = ceil(double(l + r)/2);                  log("-"); log(m); n();
         }
 
-log("check new "); log(text[index]); log("with existing");  n();log("%"); log(text[sa[m]]);  n();log("+"); n();
-log(":");
+log("check new "); log(text[index]); log("with existing");  n();log("%"); log(text[sa[m]]);  n();log("+"); log(":");
 if(text[index] > text[sa[m]]) log(" > Ok");
 if (text[index] < text[sa[m]]) log("< Ok");
 if (text[index] == text[sa[m]]) log("== Ok");
@@ -308,8 +307,8 @@ int main(int argc, char const* const* argv) {
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
 
-    std::string text = "actgcagtttcagtca";
-    std::string query = "ca";
+    std::string text = "pandapapayas";
+    std::string query = "pa";
 
  //   std::string text = "hello";
 
