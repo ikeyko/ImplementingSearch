@@ -11,8 +11,8 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
-/*
-void construct(std::vector<uint32_t>& sa, const std::string& text) {
+
+void construct(std::vector<uint32_t>& sa, const std::vector<seqan3::dna5>& text) {
 
     sa.clear(); //clears the Suffixarray
 
@@ -75,7 +75,7 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
         
     }
 }
-*/
+
 
 void n(){
     std::cout<< "\n";
@@ -105,7 +105,7 @@ void log(std::vector<uint32_t>& sa){
         std::cout << sa[i] << " ";
     }
 }
-
+/*
 void construct(std::vector<uint32_t>& sa, const std::string& text) {
 
     sa.clear(); //clears the Suffixarray
@@ -178,7 +178,7 @@ if (text[index] == text[sa[m]]) log("== Ok");
     }
 }
 
-
+*/
 void find(const std::string& query, const std::vector<uint32_t>& sa, const std::string& text, std::vector<uint32_t>& hits) {
 
     hits.clear();
@@ -307,16 +307,16 @@ int main(int argc, char const* const* argv) {
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
 
-    std::string text = "pandapapayays";
-    std::string query = "pa";
+    //std::string text = "pandapapayays";
+    //std::string query = "pa";
 
  //   std::string text = "hello";
 
     std::vector<uint32_t> sa;// = {1,4,6,10,8,3,2,0,5,7,11,9};
-    sa.resize(text.length());
+
     std::vector<uint32_t> hits;
     std::cout<<"go to construct\n";
-    construct(sa, text);
+    construct(sa, reference);
     std::cout<<"construct done\n";
     
     for (unsigned i = 0; i < sa.size(); ++i) {
