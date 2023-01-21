@@ -11,6 +11,7 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
+/*
 void construct(std::vector<uint32_t>& sa, const std::string& text) {
 
     sa.clear(); //clears the Suffixarray
@@ -74,6 +75,102 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
         
     }
 }
+*/
+
+void n(){
+    std::cout<<std::endl;
+}
+
+void log(const std::string& text){
+    std::cout<< text << " ";
+}
+
+void log(char text){
+    std::cout<< text << " ";
+}
+
+void log(uint i){
+    std::cout<< i << " ";
+}
+void log(int i){
+    std::cout<< i << " ";
+}
+
+void log(std::vector<uint32_t>& sa, uint32_t i){
+    std::cout<< sa[i] << " ";
+}
+
+void log(std::vector<uint32_t>& sa){
+    for (unsigned i = 0; i < sa.size(); ++i) {
+        std::cout << sa[i] << " ";
+    }
+}
+
+void construct(std::vector<uint32_t>& sa, const std::string& text) {
+
+    sa.clear(); //clears the Suffixarray
+
+    uint32_t length = text.length();
+
+    // condition that checks, if the text exists
+    if (length == 0) return;
+
+    std::vector<uint32_t> lcp;
+
+    sa.push_back(0);
+    lcp.push_back(0);
+
+    int l,r,m = 0;
+
+
+    for (uint32_t index = 1; index < length; ++index){
+        l = 0;
+        r = sa.size()-1;
+        m = ceil(double(r)/2);
+
+n(); n();
+log ("new index"); log(index);  log(" current sa"); log(sa); n(); 
+
+        while (l < r){     log("new while l ="); log (l); log("r ="); log(r); log("m ="); log(m);log("sa ="); log(sa); n(); 
+            
+            log("check "); log(text[index]); log("with exist"); log(text[sa[m]]); n();
+            if(text[index] > text[sa[m]]) {             log ("adjust left"); log(l);
+                l = m;                                  log ("-"); log(l);
+            } else if (text[index] < text[sa[m]]){      log ("adjust right"); log(r);
+                r = m - 1;                              log ("-"); log(r);
+            } else {
+                l = r = m;
+            }                                          log("adjust m =");log(m);
+            m = ceil(double(l + r)/2);                  log("-"); log(m); n();
+        }
+
+log("check new "); log(text[index]); log("with existing"); log(text[sa[m]]); n();
+
+        if(text[index] > text[sa[m]]) {
+            sa.insert(sa.begin() + m + 1, index);       log("char inserted >, new sa = "); log(sa);
+            lcp.insert(lcp.begin() + m + 1, 1);
+        } else if (text[index] < text[sa[m]]){
+            sa.insert(sa.begin() + m, index);           log("char inserted <, new sa = "); log(sa); n();
+            lcp.insert(lcp.begin() + m, 0);
+        } else {                                        log ("char found"); log (text[index]); n();
+                uint32_t i = 0;
+                while (index + i++ < length){           log ("check next text"); log(text[index + i]); n();
+                    if(text[index + i] == text[sa[m]+i]) continue;
+                    if(text[index + i] > text[sa[m]+i]){ log ("mismatch found text ="); log(text[index + i]); log("sa char ="); log(text[sa[m]+i]); n();
+                        sa.insert(sa.begin() + m+1, index); log("char inserted >, new sa = "); log(sa); n();
+                        break;
+                    } else {
+                        sa.insert(sa.begin() + m, index);  log("char inserted >, new sa = "); log(sa); n();
+                        break;
+                    }
+                }
+            }
+
+    
+        
+    }
+}
+
 
 void find(const std::string& query, const std::vector<uint32_t>& sa, const std::string& text, std::vector<uint32_t>& hits) {
 
