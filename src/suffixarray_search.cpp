@@ -78,7 +78,7 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
 */
 
 void n(){
-    std::cout<<std::endl;
+    std::cout<< "\n";
 }
 
 void log(const std::string& text){
