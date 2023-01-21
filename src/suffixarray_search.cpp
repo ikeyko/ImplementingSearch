@@ -12,11 +12,11 @@
 #include <seqan3/search/search.hpp>
 
 
-void construct(std::vector<uint32_t>& sa, const std::vector<seqan3::dna5>& text) {
+void construct(std::vector<uint32_t>& sa, const std::string& text) {
 
     sa.clear(); //clears the Suffixarray
 
-    uint32_t length = text.size();
+    uint32_t length = text.length();
 
     // condition that checks, if the text exists
     if (length == 0) return;
@@ -36,7 +36,7 @@ void construct(std::vector<uint32_t>& sa, const std::vector<seqan3::dna5>& text)
         r = sa.size()-1;
         m = ceil(double(r)/2);
 
-        while (l < r){    
+        while (l <= r){    
 
             if(text[index] > text[sa[m]]) {             
                 l = m;                                  
@@ -304,8 +304,8 @@ int main(int argc, char const* const* argv) {
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
 
-    //std::string text = "pandapapayays";
-    //std::string query = "pa";
+    std::string text = "pandapapayays";
+    std::string query = "pa";
 
  //   std::string text = "hello";
 
@@ -313,7 +313,7 @@ int main(int argc, char const* const* argv) {
 
     std::vector<uint32_t> hits;
     std::cout<<"go to construct\n";
-    construct(sa, reference);
+    construct(sa, text);
     std::cout<<"construct done\n";
     
     for (unsigned i = 0; i < sa.size(); ++i) {
