@@ -144,11 +144,12 @@ log ("new index"); log(index);  log(" current sa"); log(sa); n();
             m = ceil(double(l + r)/2);                  log("-"); log(m); n();
         }
 
-log("check new "); log(text[index]); log("with existing"); log(text[sa[m]]); n();
+log("check new "); log(text[index]); log("with existing"); log("%"); log(text[sa[m]]); log("+"); n();
 log(":");
 if(text[index] > text[sa[m]]) log(" > Ok");
 if (text[index] < text[sa[m]]) log("< Ok");
 if (text[index] == text[sa[m]]) log("== Ok");
+
         if(text[index] > text[sa[m]]) {
             log(",");
             sa.insert(sa.begin() + m + 1, index);       log("char inserted >, new sa = "); log(sa);
