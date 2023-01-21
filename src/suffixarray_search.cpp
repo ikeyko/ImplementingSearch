@@ -29,12 +29,16 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
 
 
     for (uint32_t index = 1; index < length; ++index){
-        l = 0;
+        
+        std::out<<"for\n";
+            l = 0;
         r = sa.size()-1;
         m = ceil(double(r)/2);
 
         while (l < r){    
             
+            std::out<<"while\n";
+
             if(text[index] > text[sa[m]]) {             
                 l = m;                                  
             } else if (text[index] < text[sa[m]]){      
@@ -45,7 +49,7 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
             m = ceil(double(l + r)/2);                  
         }
 
-
+        std::out<<"if\n";
         if(text[index] > text[sa[m]]) {
             sa.insert(sa.begin() + m + 1, index);       
             lcp.insert(lcp.begin() + m + 1, 1);
@@ -206,9 +210,9 @@ int main(int argc, char const* const* argv) {
 
     std::vector<uint32_t> sa;// = {1,4,6,10,8,3,2,0,5,7,11,9};
     std::vector<uint32_t> hits;
-
+    std::cout<<"go to construct\n";
     construct(sa, text);
-    
+    std::cout<<"construct done\n";
     
     for (unsigned i = 0; i < sa.size(); ++i) {
         std::cout << sa[i] << " ";
