@@ -145,7 +145,10 @@ log ("new index"); log(index);  log(" current sa"); log(sa); n();
         }
 
 log("check new "); log(text[index]); log("with existing"); log(text[sa[m]]); n();
-
+log(":");
+if(text[index] > text[sa[m]]) log(" > Ok");
+if (text[index] < text[sa[m]]) log("< Ok");
+if (text[index] == text[sa[m]]) log("== Ok");
         if(text[index] > text[sa[m]]) {
             log(",");
             sa.insert(sa.begin() + m + 1, index);       log("char inserted >, new sa = "); log(sa);
