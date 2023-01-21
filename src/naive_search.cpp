@@ -16,7 +16,7 @@ void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dn
     if(res == std::end(ref)) {
         std::cout << "Couldn't find it.\n";       
     } else {
-        std::cout << "Found it.\n";
+        std::cout << "Found it at the position: " << res - ref.begin() << "\n";
         seqan3::debug_stream << *res << "\n";
 
     }
