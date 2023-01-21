@@ -11,42 +11,24 @@
 
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dna5> const& query) {
-/*
-    auto res = std::search(std::begin(ref), std::end(ref), std::begin(query), std::end(query));
-    if(res == std::end(ref)) {
-        seqan3::debug_stream << query << ": ";
-        std::cout << "couldn't find it.\n";       
-    } else {
-        seqan3::debug_stream << query << ": ";
-        std::cout << "found it at the position: " << res - ref.begin() << "\n";
-        }
-*/  
+ 
     bool found = false;
     seqan3::debug_stream << query << ": ";
     auto res = std::begin(ref);
     while (res != std::end(ref)) {
         res = std::search(res, std::end(ref), std::begin(query), std::end(query));
         if(res != std::end(ref)) {
-            std::cout << "found it at the position: " << res - ref.begin() << "\n";
-            res ++;
-            found = true;
+            if (!found) {
+                found = true;
+                std::cout << "found it at the position(s): ";
+                }
+            std::cout << res - ref.begin() << " ";
+            res ++;           
         }
     } 
-    if(!found) std::cout << "couldn't find it.\n"; 
+    if(!found) std::cout << "couldn't find it."; 
+    std::cout << "\n";
     
-    //seqan3::debug_stream << query << '\n';
-    // std::find function call
-    /*
-    it = std::find (ref.begin(), ref.end(), query);
-    if (it != ref.end())
-    {
-        std::cout << "Query " <<" found at position : " ;
-        std::cout << it - ref.begin() << " (counting from zero) \n" ;
-    }
-    else
-        std::cout << "Query not found.\n\n";
-    */
-    //return 0;
 }
 
 int main(int argc, char const* const* argv) {
