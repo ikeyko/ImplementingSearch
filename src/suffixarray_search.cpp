@@ -30,14 +30,14 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
 
     for (uint32_t index = 1; index < length; ++index){
         
-        std::out<<"for\n";
+        std::cout<<"for\n";
             l = 0;
         r = sa.size()-1;
         m = ceil(double(r)/2);
 
         while (l < r){    
             
-            std::out<<"while\n";
+            std::cout<<"while\n";
 
             if(text[index] > text[sa[m]]) {             
                 l = m;                                  
@@ -49,7 +49,7 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
             m = ceil(double(l + r)/2);                  
         }
 
-        std::out<<"if\n";
+        std::cout<<"if\n";
         if(text[index] > text[sa[m]]) {
             sa.insert(sa.begin() + m + 1, index);       
             lcp.insert(lcp.begin() + m + 1, 1);
@@ -217,14 +217,14 @@ int main(int argc, char const* const* argv) {
     for (unsigned i = 0; i < sa.size(); ++i) {
         std::cout << sa[i] << " ";
     }
-    
+    /*
     find(query, sa, text, hits);
 
     std::cout << query << ": ";
     for (unsigned i = 0; i < sa.size(); ++i) {
         std::cout << sa[i] << " ";
     }
-
+    */
     std::cout<<std::endl;
 
     return 0;
