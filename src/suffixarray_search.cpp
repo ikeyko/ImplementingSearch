@@ -162,7 +162,7 @@ if (text[index] == text[sa[m]]) log("== Ok");
             log(".");
                                                     log ("char found"); log (text[index]); n();
                 uint32_t i = 0;
-                while (index + ++i < length){           log ("check next text"); log(text[index + i]); n();
+                while (index + i++ < length){           log ("check next text"); log(text[index + i]); n();
                     if(text[index + i] == text[sa[m]+i]) continue;
                     if(text[index + i] > text[sa[m]+i]){ log ("mismatch found text ="); log(text[index + i]); log("sa char ="); log(text[sa[m]+i]); n();
                         sa.insert(sa.begin() + m+1, index); log("char inserted >, new sa = "); log(sa); n();
@@ -308,7 +308,7 @@ int main(int argc, char const* const* argv) {
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
 
-    std::string text = "pandapapayas";
+    std::string text = "pandapapaya";
     std::string query = "pa";
 
  //   std::string text = "hello";
