@@ -13,6 +13,8 @@
 
 
 void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
+    seqan3::debug_stream << query << ": ";
+    bool found = false;
     
     std::vector<uint32_t> hits;
     
@@ -74,12 +76,15 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     sort(hits.begin(), hits.end());
 
     if (hits.size() != 0) {
-
-        std::cout << query << ":";
+        if (!found) {
+                found = true;
+                std::cout << "found it at the position(s):";
+                }
         for (unsigned i = 0; i < hits.size(); ++i) {
             std::cout << " " << hits[i] ;
         }
     }
+    if(!found) std::cout << "couldn't find it."; 
     std::cout<<"\n";
     hits.clear();
 }
