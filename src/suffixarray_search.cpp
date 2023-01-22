@@ -58,20 +58,22 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
 
     unsigned index = 0; //Suffix index
 
+
     std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
 
     while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
+        std::cout<<"index: "<<index<<"\n";
         while (Rp >= Lp && query[index] != text[SA[Lp]+index]){ //check left suffix
             ++Lp; //go to next suffix
-            std::cout<<".";
+            
         }
-        std::cout<<"\n";
+         std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
         //cout<<"Lp= "<<Lp<<endl;
         while (Rp >= Lp && query[index] != text[SA[Rp]+index]) { //check right suffix
             --Rp; //go to previous suffix
-            std::cout<<",";
+            
         }
-
+         std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
     }
     std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
