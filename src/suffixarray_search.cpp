@@ -20,10 +20,13 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     //unsigned n = sa.size() - 1;
 
     if (n == 0) return;
+    std::cout<<"find 1 \n";
 
     //if the search character not exist in Alphabet
     if (query[0] > text[SA[n]]) return;
+    std::cout<<"find 2 \n";
     if (query[0] < text[SA[0]]) return;
+    std::cout<<"find 3 \n";
 
     unsigned Lp, Rp;
 
@@ -37,6 +40,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         if (query[0] >= text[SA[middle]]) left = middle;
         else right = middle;
     }
+    std::cout<<"find 4 \n";
     Rp = left;
 
     //looking for left interval bound
@@ -44,11 +48,12 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     right = Rp;
 
     while (right - left > 1) {
-
+        std::cout<<",";
         middle = ceil((left + right)/2);
         if (query[0] <= text[SA[middle]]) right = middle;
         else left = middle;
     }
+    std::cout<<"find 5 \n";
     Lp = right;
 
     unsigned index = 0; //Suffix index
@@ -62,21 +67,25 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
             --Rp; //go to previous suffix
         }
 
-
+        std::cout<<".";
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
     }
+    std::cout<<"find 6 \n";
     while (Rp >= Lp) {
+        std::cout<<"find 61 \n";
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
-    
+    std::cout<<"find 7 \n";
     sort(hits.begin(), hits.end());
 
     if (hits.size() != 0) {
+        std::cout<<"find 777 \n";
         std::cout << query << ": ";
         for (unsigned i = 0; i < hits.size(); ++i) {
             std::cout << hits[i] << " ";
         }
     }
+    std::cout<<"find 8 \n";
     hits.clear();
 }
 
