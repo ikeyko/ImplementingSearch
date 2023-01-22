@@ -59,42 +59,43 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     unsigned index = 0; //Suffix index
 
 
-    std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
+    //std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
 
     while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
-        std::cout<<"\n";std::cout<<"\n";
-        std::cout<<"index: "<<index<<"\n";
-        std::cout<<" Lp: "<<Lp<<" -> ";
+        //std::cout<<"\n";//std::cout<<"\n";
+        //std::cout<<"index: "<<index<<"\n";
+        //std::cout<<" Lp: "<<Lp<<" -> ";
         while (Rp >= Lp && query[index] != text[SA[Lp]+index]){ //check left suffix
             ++Lp; //go to next suffix
             
         }
-        std::cout<<Lp<<"; ";
-        std::cout<<"Rp: "<<Rp<<" -> ";
+        //std::cout<<Lp<<"; ";
+        //std::cout<<"Rp: "<<Rp<<" -> ";
         //cout<<"Lp= "<<Lp<<endl;
         while (Rp >= Lp && query[index] != text[SA[Rp]+index]) { //check right suffix
             --Rp; //go to previous suffix
             
         }
-        std::cout<<Rp<<"\n";
+        //std::cout<<Rp<<"\n";
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
-        
-        std::cout<<"L: ";
+        /*
+        //std::cout<<"L: ";
         for (int i = SA[Lp]; i<SA[Lp]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
-        std::cout<<"\n";
-        std::cout<<"Q: ";
+        //std::cout<<"\n";
+        //std::cout<<"Q: ";
         for (int i = 0; i<index; ++i) {
 
             seqan3::debug_stream << q[i];
         }
-        std::cout<<"\n";
-        std::cout<<"R: ";
+        //std::cout<<"\n";
+        //std::cout<<"R: ";
         for (int i = SA[Rp]; i<SA[Rp]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
-        std::cout<<"\n";
+        //std::cout<<"\n";
+        */
 
     }
     //std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
@@ -102,8 +103,8 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
 
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
-    std::cout<<"hits size: "<<hits.size()<<"\n";
-/*
+    //std::cout<<"hits size: "<<hits.size()<<"\n";
+
     sort(hits.begin(), hits.end());
 
     if (hits.size() != 0) {
@@ -117,7 +118,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     }
     if(!found) std::cout << "couldn't find it."; 
     std::cout<<"\n";
-    */
+    
     hits.clear();
 
 }
@@ -224,24 +225,25 @@ int main(int argc, char const* const* argv) {
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
         find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n, reference,q);
     }
+    /*
         int m = 40;
-        std::cout<<"SA[100000000]: ";
+        //std::cout<<"SA[100000000]: ";
         for (int i = SA[100000000]; i<SA[100000000]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
-        std::cout<<"\n";
-        std::cout<<"SA[99999999]: ";
+        //std::cout<<"\n";
+        //std::cout<<"SA[99999999]: ";
         for (int i = SA[99999999]; i<SA[99999999]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
-        std::cout<<"\n";
+        //std::cout<<"\n";
 
-        std::cout<<"SA[99999998]: ";
+        //std::cout<<"SA[99999998]: ";
         for (int i = SA[99999998]; i<SA[99999998]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
-        std::cout<<"\n";
-
+        //std::cout<<"\n";
+*/
     // deallocate
     free(SA);
 
