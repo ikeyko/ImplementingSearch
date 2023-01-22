@@ -115,7 +115,7 @@ int main(int argc, char const* const* argv) {
         return EXIT_FAILURE;
     }
 
-    if ( ! (query_size > 100 && query_size < 1000000 ) )  query_size = query_size_default;
+    if ( ! (query_size > 100 && query_size <= 1000000 ) )  query_size = query_size_default;
 
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
@@ -209,21 +209,27 @@ int main(int argc, char const* const* argv) {
 
     // suffix array search
 
-    std::vector<std::vector<seqan3::dna5>> queries_resized;    
-    for (int i = 1; i<=10; ++i) {
-        queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
-        if ( queries_resized.size() > query_size ) i = 99;
+    std::vector<std::vector<seqan3::dna5>> queries_temp; 
+    if ( queries.size() > query_size ) {
+        queries.resize(query_size); 
+    } else {
+        queries_temp.insert(queries_temp.end(), queries.begin(), queries.end());
+        for (int i = 1; i<=10; ++i) {
+            queries.insert(queries.end(), queries_temp.begin(), queries_temp.end());
+            if ( queries.size() >= query_size ) i = 99;
+        }
+        queries_temp.clear();
     }
-    queries.clear();
+    
 
     int iPercent = 0;
     int iPercentShow = -1;
     int iCounter = 0;
  
     //for (int i = 1000000; i>=1000; i=i/10) {
-        queries_resized.resize(query_size);
+        queries.resize(query_size);
         start = high_resolution_clock::now();
-        for (auto& q : queries_resized) {
+        for (auto& q : queries) {
             iCounter++;
             //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
             // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
@@ -240,7 +246,7 @@ int main(int argc, char const* const* argv) {
         stop = high_resolution_clock::now();
         duration = duration_cast<microseconds>(stop - start);
         //
-        std::cout << "\n" << "Time taken by SA search in " << queries_resized.size() << " queries: "
+        std::cout << "\n" << "Time taken by SA search in " << queries.size() << " queries: "
             << duration.count() << " microseconds" << "\n";
    // }
     
