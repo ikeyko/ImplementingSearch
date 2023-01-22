@@ -211,7 +211,7 @@ int main(int argc, char const* const* argv) {
     int n = reference.size();
     sauchar_t const* ref = reinterpret_cast<sauchar_t const*>(reference.data());
     int *SA = (int *)malloc(n * sizeof(int));
-    divsufsort((sauchar_t*)ref, SA, n);
+    divsufsort((sauchar_t*)ref, SA, n+1);
 
 
 
