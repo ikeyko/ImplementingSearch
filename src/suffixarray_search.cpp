@@ -74,7 +74,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
     sort(hits.begin(), hits.end());
-
+/*
     if (hits.size() != 0) {
         if (!found) {
                 found = true;
@@ -86,7 +86,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     }
     if(!found) std::cout << "couldn't find it."; 
     std::cout<<"\n";
-    
+*/    
     hits.clear();
 
 }
@@ -132,11 +132,12 @@ int main(int argc, char const* const* argv) {
 
     //!TODO here adjust the number of searches
     //queries.resize(100); // will reduce the amount of searches
-    std::cout<<"Number of queries: "<<queries.size()<<"\n";
-
+    /*
+    std::cout<<"Number of queries: "<<queries.size()<<"\n";  
     if (queries.size() > 100) {
         queries.resize(100);    // will reduce the amount of searches
     }
+    */
 
 
 
@@ -197,21 +198,32 @@ int main(int argc, char const* const* argv) {
     std::cout << "Time taken by SA construction: "
          << duration.count() << " microseconds" << "\n";
 
+
     // suffix array search
-    start = high_resolution_clock::now();
-    for (auto& q : queries) {
-        //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
-        // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
-        int m = q.size();
-        seqan3::debug_stream << q << ": ";
-        sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
-        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
+
+    std::vector<std::vector<seqan3::dna5>> queries_resized;    
+    for (i = 1; i<=10, ++i) {
+        queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
     }
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
-    //
-    std::cout << "Time taken by SA search in " << queries.size() << " queries: "
-         << duration.count() << " microseconds" << "\n";
+ 
+    for (i = 1000000; i>=1000; i=i/10) {
+        queries_resized.resize(i)
+        start = high_resolution_clock::now();
+        for (auto& q : queries_resized) {
+            //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
+            // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
+            int m = q.size();
+            //seqan3::debug_stream << q << ": ";
+            sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
+            find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
+        } 
+        stop = high_resolution_clock::now();
+        duration = duration_cast<microseconds>(stop - start);
+        //
+        std::cout << "Time taken by SA search in " << queries_resized.size() << " queries: "
+            << duration.count() << " microseconds" << "\n";
+    }
+    
     // deallocate
     free(SA);
 
