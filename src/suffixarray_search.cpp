@@ -224,6 +224,22 @@ int main(int argc, char const* const* argv) {
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
         find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n, reference,q);
     }
+        std::cout<<"SA[100000000]: ";
+        for (int i = SA[100000000]; i<SA[100000000]+m; ++i) {
+            seqan3::debug_stream << reference[i];
+        }
+        std::cout<<"\n";
+        std::cout<<"SA[99999999]: ";
+        for (int i = SA[99999999]; i<SA[99999999]+m; ++i) {
+            seqan3::debug_stream << reference[i];
+        }
+        std::cout<<"\n";
+
+        std::cout<<"SA[99999998]: ";
+        for (int i = SA[99999998]; i<SA[99999998]+m; ++i) {
+            seqan3::debug_stream << reference[i];
+        }
+        std::cout<<"\n";
 
     // deallocate
     free(SA);
