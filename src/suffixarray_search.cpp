@@ -218,18 +218,20 @@ int main(int argc, char const* const* argv) {
 
     int iPercent = 0;
     int iPercentShow = -1;
+    int iCounter = 0;
  
     //for (int i = 1000000; i>=1000; i=i/10) {
         queries_resized.resize(query_size);
         start = high_resolution_clock::now();
         for (auto& q : queries_resized) {
+            iCounter++;
             //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
             // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
             int m = q.size();
             //seqan3::debug_stream << q << ": ";
             sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
             find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
-            iPercent = (int)((static_cast<float>(iBankRoll) / iWageredTot) * 100);
+            iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
             if (iPercent > iPercentShow) {
                 std::cout << iPercent << "% ";
                 iPercentShow += 10;
