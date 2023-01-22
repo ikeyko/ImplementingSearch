@@ -82,8 +82,8 @@ int main(int argc, char const* const* argv) {
         queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
     }
  
-    for (int i = 1000000; i>=1000; i=i/10) {
-        queries_resized.resize(i);
+    //for (int i = 1000000; i>=1000; i=i/10) {
+        queries_resized.resize(1000);
         start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries_resized) {
@@ -98,7 +98,7 @@ int main(int argc, char const* const* argv) {
         //
         std::cout << "Time taken by naive search in " << queries_resized.size() << " queries: "
             << duration.count() << " microseconds" << "\n";
-    }
+    //}
 /*
     for (auto& r : reference) {
         for (auto& q : queries) {

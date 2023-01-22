@@ -206,8 +206,8 @@ int main(int argc, char const* const* argv) {
         queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
     }
  
-    for (int i = 1000000; i>=1000; i=i/10) {
-        queries_resized.resize(i);
+    //for (int i = 1000000; i>=1000; i=i/10) {
+        queries_resized.resize(1000);
         start = high_resolution_clock::now();
         for (auto& q : queries_resized) {
             //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
@@ -222,7 +222,7 @@ int main(int argc, char const* const* argv) {
         //
         std::cout << "Time taken by SA search in " << queries_resized.size() << " queries: "
             << duration.count() << " microseconds" << "\n";
-    }
+   // }
     
     // deallocate
     free(SA);
