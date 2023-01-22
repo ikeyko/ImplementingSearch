@@ -12,7 +12,7 @@
 #include <seqan3/search/search.hpp>
 
 
-void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
+void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n, std::vector<seqan3::dna5>& reference) {
     
     bool found = false;
     
@@ -75,8 +75,19 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         }
          std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
+        
+        std::cout<<"\n";std::cout<<"\n";
+        for (int i = Lp; i<Lp+m; ++i) {
+            seqan3::debug_stream << reference[i];
+        }
+        std::cout<<"\n";
+        for (int i = Rp; i<Rp+m; ++i) {
+            seqan3::debug_stream << reference[i];
+        }
+        std::cout<<"\n";
+
     }
-    std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
+    //std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
     while (Rp >= Lp) {
 
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
@@ -193,14 +204,6 @@ int main(int argc, char const* const* argv) {
     divsufsort((sauchar_t*)ref, SA, n);
 
 
-    for (int i = 83987955; i<83987955+40; ++i) {
-        seqan3::debug_stream << reference[i];
-    }
-    std::cout<<"\n";
-    for (int i = 91325091; i<91325091+40; ++i) {
-        seqan3::debug_stream << reference[i];
-    }
-    
 
     // suffix array search
     for (auto& q : queries) {
@@ -209,7 +212,7 @@ int main(int argc, char const* const* argv) {
         int m = q.size();
         seqan3::debug_stream << q << ": ";
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
-        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
+        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n, reference);
     }
 
     // deallocate
