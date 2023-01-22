@@ -60,6 +60,8 @@ int main(int argc, char const* const* argv) {
 
     if ( ! (query_size > 100 && query_size < 1000000 ) )  query_size = query_size_default;
 
+    std::cout<<"Start NAIVE with query size = "<<query_size<<"\n";
+
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
     auto query_stream     = seqan3::sequence_file_input{query_file};
