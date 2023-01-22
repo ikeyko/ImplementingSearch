@@ -2,6 +2,8 @@
 #include <divsufsort.h>
 #include <sstream>
 
+#include <chrono>
+
 #include <seqan3/std/filesystem>
 
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
@@ -11,8 +13,10 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
+using namespace std::chrono;
 
-void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n, std::vector<seqan3::dna5>& reference, std::vector<seqan3::dna5>& q) {
+
+void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
     
     bool found = false;
     
@@ -52,59 +56,23 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         else left = middle;
     }
 
-    
-
     Lp = right;
 
     unsigned index = 0; //Suffix index
 
-
-    //std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
-
     while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
-        //std::cout<<"\n";//std::cout<<"\n";
-        //std::cout<<"index: "<<index<<"\n";
-        //std::cout<<" Lp: "<<Lp<<" -> ";
+
         while (Rp >= Lp && query[index] != text[SA[Lp]+index]){ //check left suffix
-            ++Lp; //go to next suffix
-            
+            ++Lp; //go to next suffix           
         }
-        //std::cout<<Lp<<"; ";
-        //std::cout<<"Rp: "<<Rp<<" -> ";
-        //cout<<"Lp= "<<Lp<<endl;
         while (Rp >= Lp && query[index] != text[SA[Rp]+index]) { //check right suffix
-            --Rp; //go to previous suffix
-            
-        }
-        //std::cout<<Rp<<"\n";
+            --Rp; //go to previous suffix           
+        }      
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
-        /*
-        //std::cout<<"L: ";
-        for (int i = SA[Lp]; i<SA[Lp]+m; ++i) {
-            seqan3::debug_stream << reference[i];
-        }
-        //std::cout<<"\n";
-        //std::cout<<"Q: ";
-        for (int i = 0; i<index; ++i) {
-
-            seqan3::debug_stream << q[i];
-        }
-        //std::cout<<"\n";
-        //std::cout<<"R: ";
-        for (int i = SA[Rp]; i<SA[Rp]+m; ++i) {
-            seqan3::debug_stream << reference[i];
-        }
-        //std::cout<<"\n";
-        */
-
     }
-    //std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
     while (Rp >= Lp) {
-
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
-    //std::cout<<"hits size: "<<hits.size()<<"\n";
-
     sort(hits.begin(), hits.end());
 
     if (hits.size() != 0) {
@@ -164,6 +132,7 @@ int main(int argc, char const* const* argv) {
 
     //!TODO here adjust the number of searches
     //queries.resize(100); // will reduce the amount of searches
+    std::cout<<"Number of queries: "<<queries.size()<<"\n";
 
     if (queries.size() > 100) {
         queries.resize(100);    // will reduce the amount of searches
@@ -209,41 +178,40 @@ int main(int argc, char const* const* argv) {
     //      To make the `reference` compatible with libdivsufsort you can simply
     //      cast it by calling:
     //      `sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());`
+ 
+    
+
     int n = reference.size();
     sauchar_t const* ref = reinterpret_cast<sauchar_t const*>(reference.data());
     int *SA = (int *)malloc(n * sizeof(int));
+    
+
+    // Get starting timepoint
+    auto start = high_resolution_clock::now();
+    //sa sort
     divsufsort((sauchar_t*)ref, SA, n+1);
-
-
+    // Get ending timepoint
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    //
+    std::cout << "Time taken by SA construction: "
+         << duration.count() << " microseconds" << endl;
 
     // suffix array search
+    start = high_resolution_clock::now();
     for (auto& q : queries) {
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
         int m = q.size();
         seqan3::debug_stream << q << ": ";
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
-        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n, reference,q);
+        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
     }
-    /*
-        int m = 40;
-        //std::cout<<"SA[100000000]: ";
-        for (int i = SA[100000000]; i<SA[100000000]+m; ++i) {
-            seqan3::debug_stream << reference[i];
-        }
-        //std::cout<<"\n";
-        //std::cout<<"SA[99999999]: ";
-        for (int i = SA[99999999]; i<SA[99999999]+m; ++i) {
-            seqan3::debug_stream << reference[i];
-        }
-        //std::cout<<"\n";
-
-        //std::cout<<"SA[99999998]: ";
-        for (int i = SA[99999998]; i<SA[99999998]+m; ++i) {
-            seqan3::debug_stream << reference[i];
-        }
-        //std::cout<<"\n";
-*/
+    stop = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start);
+    //
+    std::cout << "Time taken by SA search in " << queries.size() << " queries: "
+         << duration.count() << " microseconds" << endl;
     // deallocate
     free(SA);
 
