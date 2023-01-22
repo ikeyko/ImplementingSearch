@@ -77,19 +77,19 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
         
         std::cout<<"\n";std::cout<<"\n";
-        td::cout<<"L: ";
+        std::cout<<"L: ";
         for (int i = Lp; i<Lp+m; ++i) {
             s
             seqan3::debug_stream << reference[i];
         }
         std::cout<<"\n";
-        td::cout<<"Q: ";
+        std::cout<<"Q: ";
         for (int i = 0; i<m; ++i) {
 
             seqan3::debug_stream << q[i];
         }
         std::cout<<"\n";
-        td::cout<<"R: ";
+        std::cout<<"R: ";
         for (int i = Rp; i<Rp+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
