@@ -307,7 +307,7 @@ int main(int argc, char const* const* argv) {
     const char* str_source = "pandapapayays";
     //sauchar_t* str = "pandapapayays";
     int n = strlen(str_source);
-    sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source.data());`
+    sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source);
     // allocate
     int *SA = (int *)malloc(n * sizeof(int));
 
