@@ -83,7 +83,7 @@ int main(int argc, char const* const* argv) {
     }
  
     //for (int i = 1000000; i>=1000; i=i/10) {
-        queries_resized.resize(1000);
+        queries_resized.resize(10000);
         auto start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries_resized) {
