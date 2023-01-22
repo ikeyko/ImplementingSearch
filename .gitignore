@@ -1,4 +1,3 @@
-.DS_Store
+*.DS_Store
 .vscode/settings.json
-data/hg38_partial.fasta
-data/illumina_reads_40_test_long_bug.fasta
+*.fasta

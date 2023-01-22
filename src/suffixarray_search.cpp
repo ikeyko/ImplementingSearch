@@ -194,11 +194,11 @@ int main(int argc, char const* const* argv) {
 
 
     for (int i = 83987955; i<83987955+40; ++i) {
-        seqan3::debug_stream << refence[i];
+        seqan3::debug_stream << ref[i];
     }
     std::cout<<"\n";
     for (int i = 91325091; i<91325091+40; ++i) {
-        seqan3::debug_stream << refence[i];
+        seqan3::debug_stream << ref[i];
     }
     
 
