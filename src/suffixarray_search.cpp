@@ -105,6 +105,7 @@ int main(int argc, char const* const* argv) {
     parser.add_option(query_file, '\0', "query", "path to the query file");
 
     size_t query_size{};
+    size_t query_size_default = 100;
     parser.add_option(query_size, 's', "query-size", "Size of query vector");
 
     try {
@@ -113,6 +114,8 @@ int main(int argc, char const* const* argv) {
         seqan3::debug_stream << "Parsing error. " << ext.what() << "\n";
         return EXIT_FAILURE;
     }
+
+    if ( ! (query_size > 100 && query_size < 1000000 ) )  query_size = query_size_default;
 
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
@@ -209,7 +212,12 @@ int main(int argc, char const* const* argv) {
     std::vector<std::vector<seqan3::dna5>> queries_resized;    
     for (int i = 1; i<=10; ++i) {
         queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
+        if ( queries_resized.size() > query_size ) i = 99;
     }
+    queries.clear();
+
+    int iPercent = 0;
+    int iPercentShow = -1;
  
     //for (int i = 1000000; i>=1000; i=i/10) {
         queries_resized.resize(query_size);
@@ -221,11 +229,16 @@ int main(int argc, char const* const* argv) {
             //seqan3::debug_stream << q << ": ";
             sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
             find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
+            iPercent = (int)((static_cast<float>(iBankRoll) / iWageredTot) * 100);
+            if (iPercent > iPercentShow) {
+                std::cout << iPercent << "% ";
+                iPercentShow += 10;
+            }
         } 
         stop = high_resolution_clock::now();
         duration = duration_cast<microseconds>(stop - start);
         //
-        std::cout << "Time taken by SA search in " << queries_resized.size() << " queries: "
+        std::cout << "\n" << "Time taken by SA search in " << queries_resized.size() << " queries: "
             << duration.count() << " microseconds" << "\n";
    // }
     
