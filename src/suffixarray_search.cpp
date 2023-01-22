@@ -12,180 +12,17 @@
 #include <seqan3/search/search.hpp>
 
 
-void construct(std::vector<uint32_t>& sa, const std::string& text) {
-
-    sa.clear(); //clears the Suffixarray
-
-    uint32_t length = text.length();
-
-    // condition that checks, if the text exists
-    if (length == 0) return;
-
-    std::vector<uint32_t> lcp;
-
-    sa.push_back(0);
-    lcp.push_back(0);
-
-    int l,r,m = 0;
-
-
-    for (uint32_t index = 1; index < length; ++index){
-        
-        
-        l = 0;
-        r = sa.size()-1;
-        m = ceil(double(r)/2);
-
-        while (l < r){    
-
-            if(text[index] > text[sa[m]]) {             
-                l = m;                                  
-            } else if (text[index] < text[sa[m]]){      
-                r = m - 1;                              
-            } else {
-                l = r = m;
-            }                                         
-            m = ceil(double(l + r)/2);                  
-        }
-
-        if(text[index] > text[sa[m]]) {
-            sa.insert(sa.begin() + m + 1, index);       
-            lcp.insert(lcp.begin() + m + 1, 1);
-        } else if (text[index] < text[sa[m]]){
-            sa.insert(sa.begin() + m, index);          
-            lcp.insert(lcp.begin() + m, 0);
-        } else {                                       
-                uint32_t i = 0;
-                while (index + i++ < length){           
-                    if(text[index + i] == text[sa[m]+i]) continue;
-                    if(text[index + i] > text[sa[m]+i]){
-                        sa.insert(sa.begin() + m+1, index);
-                        break;
-                    } else {
-                        sa.insert(sa.begin() + m, index);  
-                        break;
-                    }
-                }
-            }
-
+void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
     
-        
-    }
-}
-
-
-void n(){
-    std::cout<< "\n";
-}
-
-void log(const std::string& text){
-    std::cout<< text << " ";
-}
-
-void log(char text){
-    std::cout<< text << " ";
-}
-
-void log(uint i){
-    std::cout<< i << " ";
-}
-void log(int i){
-    std::cout<< i << " ";
-}
-
-void log(std::vector<uint32_t>& sa, uint32_t i){
-    std::cout<< sa[i] << " ";
-}
-
-void log(std::vector<uint32_t>& sa){
-    for (unsigned i = 0; i < sa.size(); ++i) {
-        std::cout << sa[i] << " ";
-    }
-}
-/*
-void construct(std::vector<uint32_t>& sa, const std::string& text) {
-
-    sa.clear(); //clears the Suffixarray
-
-    uint32_t length = text.length();
-
-    // condition that checks, if the text exists
-    if (length == 0) return;
-
-    std::vector<uint32_t> lcp;
-
-    sa.push_back(0);
-    lcp.push_back(0);
-
-    int l,r,m = 0;
-
-
-    for (uint32_t index = 1; index < length; ++index){
-        l = 0;
-        r = sa.size()-1;
-        m = ceil(double(r)/2);
-
-n(); n();
-log ("new index"); log(index);  log(" current sa"); log(sa); n(); 
-
-        while (l < r){     log("new while l ="); log (l); log("r ="); log(r); log("m ="); log(m);log("sa ="); log(sa); n(); 
-            
-            log("check "); log(text[index]); log("with exist"); log(text[sa[m]]); n();
-            if(text[index] > text[sa[m]]) {             log ("adjust left"); log(l);
-                l = m;                                  log ("-"); log(l);
-            } else if (text[index] < text[sa[m]]){      log ("adjust right"); log(r);
-                r = m - 1;                              log ("-"); log(r);
-            } else {
-                l = r = m;
-            }                                          log("adjust m =");log(m);
-            m = ceil(double(l + r)/2);                  log("-"); log(m); n();
-        }
-
-log("check new "); log(text[index]); log("with existing");  n();log("%"); log(m); log(sa[m]); log(text[sa[m]]); log(text[sa[m]]); log("+"); log(":");
-if(text[index] > text[sa[m]]) log(" > Ok");
-if (text[index] < text[sa[m]]) log("< Ok");
-if (text[index] == text[sa[m]]) log("== Ok");
-
-        if(text[index] > text[sa[m]]) {
-            log(",");
-            sa.insert(sa.begin() + m + 1, index);       log("char inserted >, new sa = "); log(sa);
-            lcp.insert(lcp.begin() + m + 1, 1);
-        } else if (text[index] < text[sa[m]]){
-            log("-");
-            sa.insert(sa.begin() + m, index);           log("char inserted <, new sa = "); log(sa); n();
-            lcp.insert(lcp.begin() + m, 0);
-        } else {
-            log(".");
-                                                    log ("char found"); log (text[index]); n();
-                uint32_t i = 0;
-                while (index + i++ < length){           log ("check next text"); log(text[index + i]); n();
-                    if(text[index + i] == text[sa[m]+i]) continue;
-                    if(text[index + i] > text[sa[m]+i]){ log ("mismatch found text ="); log(text[index + i]); log("sa char ="); log(text[sa[m]+i]); n();
-                        sa.insert(sa.begin() + m+1, index); log("char inserted >, new sa = "); log(sa); n();
-                        break;
-                    } else {
-                        sa.insert(sa.begin() + m, index);  log("char inserted >, new sa = "); log(sa); n();
-                        break;
-                    }
-                }
-            }
-
+    std::vector<uint32_t> hits;
     
-        
-    }
-}
+    //unsigned n = sa.size() - 1;
 
-*/
-void find(const std::string& query, const std::vector<uint32_t>& sa, const std::string& text, std::vector<uint32_t>& hits) {
-
-    hits.clear();
-    unsigned n = sa.size() - 1;
-
-    if (text.length() == 0) return;
+    if (n == 0) return;
 
     //if the search character not exist in Alphabet
-    if (query[0] > text[sa[n]]) return;
-    if (query[0] < text[sa[0]]) return;
+    if (query[0] > text[SA[n]]) return;
+    if (query[0] < text[SA[0]]) return;
 
     unsigned Lp, Rp;
 
@@ -196,7 +33,7 @@ void find(const std::string& query, const std::vector<uint32_t>& sa, const std::
 
     while (right - left > 1) {
         middle = ceil((left + right)/2);
-        if (query[0] >= text[sa[middle]]) left = middle;
+        if (query[0] >= text[SA[middle]]) left = middle;
         else right = middle;
     }
     Rp = left;
@@ -208,20 +45,19 @@ void find(const std::string& query, const std::vector<uint32_t>& sa, const std::
     while (right - left > 1) {
 
         middle = ceil((left + right)/2);
-        if (query[0] <= text[sa[middle]]) right = middle;
+        if (query[0] <= text[SA[middle]]) right = middle;
         else left = middle;
     }
     Lp = right;
 
-    unsigned query_size = query.size();
     unsigned index = 0; //Suffix index
 
-    while (Rp >= Lp && index < query_size) { //repeat check until full pattern found. Stop if bounds crossed
-        while (Rp >= Lp && query[index] != text[sa[Lp]+index]){ //check left suffix
+    while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
+        while (Rp >= Lp && query[index] != text[SA[Lp]+index]){ //check left suffix
             ++Lp; //go to next suffix
         }
         //cout<<"Lp= "<<Lp<<endl;
-        while (Rp >= Lp && query[index] != text[sa[Rp]+index]) { //check right suffix
+        while (Rp >= Lp && query[index] != text[SA[Rp]+index]) { //check right suffix
             --Rp; //go to previous suffix
         }
 
@@ -229,7 +65,7 @@ void find(const std::string& query, const std::vector<uint32_t>& sa, const std::
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
     }
     while (Rp >= Lp) {
-        hits.push_back(sa[Lp++]); //push every alignment between bounds in vector hits
+        hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
     
     sort(hits.begin(), hits.end());
@@ -240,6 +76,7 @@ void find(const std::string& query, const std::vector<uint32_t>& sa, const std::
             std::cout << hits[i] << " ";
         }
     }
+    hits.clear();
 }
 
 
@@ -289,8 +126,9 @@ int main(int argc, char const* const* argv) {
     }
 
     // Array that should hold the future suffix array
-    std::vector<saidx_t> suffixarray;
-    suffixarray.resize(reference.size()); // resizing the array, so it can hold the complete SA
+    //!!!! We don#t need it because we use the memory allocation
+    //std::vector<saidx_t> suffixarray;
+    //suffixarray.resize(reference.size()); // resizing the array, so it can hold the complete SA
 
     //!TODO !ImplementMe implement suffix array sort
     //Hint, if can use libdivsufsort (already integrated in this repo)
@@ -301,9 +139,7 @@ int main(int argc, char const* const* argv) {
 
 
     //int n = reference.size();
-    int i,j;
-    //char *Text = "abracadabra";
-    //int n = strlen(Text);
+    int i,j; // for debugging output
     const char* str_source = "pandapapayas";
     //sauchar_t* str = "pandapapayays";
     int n = strlen(str_source);
@@ -326,19 +162,8 @@ int main(int argc, char const* const* argv) {
     //std::string text = "pandapapayays";
     //std::string query = "pa";
 
- //   std::string text = "hello";
-/*
-    std::vector<uint32_t> sa;// = {1,4,6,10,8,3,2,0,5,7,11,9};
+   
 
-    std::vector<uint32_t> hits;
-    std::cout<<"go to construct\n";
-    construct(sa, text);
-    std::cout<<"construct done\n";
-    
-    for (unsigned i = 0; i < sa.size(); ++i) {
-        std::cout << sa[i] << " ";
-    }
-*/
     // output
     for(i = 0; i < n; ++i) {
         printf("SA[%2d] = %2d: ", i, SA[i]);
@@ -347,6 +172,12 @@ int main(int argc, char const* const* argv) {
         }
         printf("$\n");
     }
+
+    const char* query_source = "pa";
+    int m = strlen(query_source);
+    sauchar_t const* query = reinterpret_cast<sauchar_t const*>(query_source);
+    
+    find((sauchar_t*)query,(sauchar_t*)str, SA, m,n);
 
     /*
     find(query, sa, text, hits);
