@@ -99,7 +99,7 @@ int main(int argc, char const* const* argv) {
                 findOccurences(r, q);
                 iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
                 if (iPercent > iPercentShow) {
-                    std::cout << iPercent << "% " << flush;
+                    std::cout << iPercent << "% " << std::flush;
                     iPercentShow += 5;
                 }
             } 
