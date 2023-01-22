@@ -84,7 +84,7 @@ int main(int argc, char const* const* argv) {
  
     //for (int i = 1000000; i>=1000; i=i/10) {
         queries_resized.resize(1000);
-        start = high_resolution_clock::now();
+        auto start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries_resized) {
                 //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
@@ -93,8 +93,8 @@ int main(int argc, char const* const* argv) {
                 findOccurences(r, q);
             } 
         }    
-        stop = high_resolution_clock::now();
-        duration = duration_cast<microseconds>(stop - start);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
         //
         std::cout << "Time taken by naive search in " << queries_resized.size() << " queries: "
             << duration.count() << " microseconds" << "\n";
