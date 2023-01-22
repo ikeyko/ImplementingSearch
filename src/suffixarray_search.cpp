@@ -195,7 +195,7 @@ int main(int argc, char const* const* argv) {
     auto duration = duration_cast<microseconds>(stop - start);
     //
     std::cout << "Time taken by SA construction: "
-         << duration.count() << " microseconds" << endl;
+         << duration.count() << " microseconds" << "\n";
 
     // suffix array search
     start = high_resolution_clock::now();
@@ -211,7 +211,7 @@ int main(int argc, char const* const* argv) {
     duration = duration_cast<microseconds>(stop - start);
     //
     std::cout << "Time taken by SA search in " << queries.size() << " queries: "
-         << duration.count() << " microseconds" << endl;
+         << duration.count() << " microseconds" << "\n";
     // deallocate
     free(SA);
 
