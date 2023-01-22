@@ -20,6 +20,7 @@ set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # Dependency: SeqAn3.
+add_definitions(-w)
 find_package (SeqAn3 QUIET REQUIRED HINTS lib/seqan3/build_system)
 
 # Add libraries and applications

@@ -304,8 +304,10 @@ int main(int argc, char const* const* argv) {
     int i,j;
     //char *Text = "abracadabra";
     //int n = strlen(Text);
-    sauchar_t* str = "pandapapayays";
-    int n = strlen(str);
+    const char* str_source = "pandapapayays";
+    //sauchar_t* str = "pandapapayays";
+    int n = strlen(str_source);
+    sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source.data());`
     // allocate
     int *SA = (int *)malloc(n * sizeof(int));
 
@@ -314,7 +316,7 @@ int main(int argc, char const* const* argv) {
     //divsufsort((unsigned char *)str, SA, n);
 
     
-    divsufsort((unsigned char *)str, SA, n);
+    divsufsort((sauchar_t*)str, SA, n);
 
     for (auto& q : queries) {
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
@@ -341,7 +343,7 @@ int main(int argc, char const* const* argv) {
     for(i = 0; i < n; ++i) {
         printf("SA[%2d] = %2d: ", i, SA[i]);
         for(j = SA[i]; j < n; ++j) {
-            printf("%c", Text[j]);
+            printf("%c", str[j]);
         }
         printf("$\n");
     }
