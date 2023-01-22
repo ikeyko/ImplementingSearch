@@ -40,8 +40,9 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         else right = middle;
     }
 
+    std::cout<<"left: "<<left<<" right: "<<right<<" middle: "<<middle<<"\n";
     Rp = left;
-
+    std::cout<<"Rp: "<<Rp;
     //looking for left interval bound
     left = -1;
     right = Rp;
@@ -53,7 +54,8 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     }
 
     Lp = right;
-
+    std::cout<<" Lp: "<<Lp<<"\n";
+    std::cout<<"left: "<<left<<" right: "<<right<<" middle: "<<middle<<"\n";
     unsigned index = 0; //Suffix index
 
     while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
@@ -67,12 +69,13 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
 
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
     }
-
+    std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
     while (Rp >= Lp) {
 
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
-
+    std::cout<<"hits size: "<<hits.size()<<"\n";
+/*
     sort(hits.begin(), hits.end());
 
     if (hits.size() != 0) {
@@ -86,7 +89,9 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     }
     if(!found) std::cout << "couldn't find it."; 
     std::cout<<"\n";
+    */
     hits.clear();
+
 }
 
 
