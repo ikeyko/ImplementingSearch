@@ -78,7 +78,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         
         std::cout<<"\n";std::cout<<"\n";
         std::cout<<"L: ";
-        for (int i = Lp; i<Lp+m; ++i) {
+        for (int i = SA[Lp]; i<SA[Lp]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
         std::cout<<"\n";
@@ -89,7 +89,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         }
         std::cout<<"\n";
         std::cout<<"R: ";
-        for (int i = Rp; i<Rp+m; ++i) {
+        for (int i = SA[Rp]; i<SA[Rp]+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
         std::cout<<"\n";
