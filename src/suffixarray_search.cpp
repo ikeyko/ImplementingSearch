@@ -133,6 +133,8 @@ int main(int argc, char const* const* argv) {
         queries.push_back(record.sequence());
     }
 
+    std::cout<<"Start SA with query size = "<<query_size<<"\n";
+
     //!TODO here adjust the number of searches
     //queries.resize(100); // will reduce the amount of searches
     /*
