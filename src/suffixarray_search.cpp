@@ -202,11 +202,11 @@ int main(int argc, char const* const* argv) {
     // suffix array search
 
     std::vector<std::vector<seqan3::dna5>> queries_resized;    
-    for (i = 1; i<=10, ++i) {
+    for (int i = 1; i<=10; ++i) {
         queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
     }
  
-    for (i = 1000000; i>=1000; i=i/10) {
+    for (int i = 1000000; i>=1000; i=i/10) {
         queries_resized.resize(i)
         start = high_resolution_clock::now();
         for (auto& q : queries_resized) {
