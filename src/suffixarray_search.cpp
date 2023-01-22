@@ -130,6 +130,35 @@ int main(int argc, char const* const* argv) {
         queries.resize(100);    // will reduce the amount of searches
     }
 
+
+
+    // BEGIN TEST WITH PANDAPAPAYAS
+    //int i,j; // for debugging output
+    //const char* str_source = "pandapapayas";
+    //int n = strlen(str_source);
+    //sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source);
+    //int *SA = (int *)malloc(n * sizeof(int));
+    //divsufsort((sauchar_t*)str, SA, n);
+    // output
+    /*
+    for(i = 0; i < n; ++i) {
+        printf("SA[%2d] = %2d: ", i, SA[i]);
+        for(j = SA[i]; j < n; ++j) {
+            printf("%c", str[j]);
+        }
+        printf("$\n");
+    }
+    //test search
+    const char* query_source = "pa";
+    int m = strlen(query_source);
+    sauchar_t const* query = reinterpret_cast<sauchar_t const*>(query_source);
+    find((sauchar_t*)query,(sauchar_t*)str, SA, m, n);
+    */
+   //END TEST
+
+
+    // suffix array construction
+
     // Array that should hold the future suffix array
     //!!!! We don#t need it because we use the memory allocation
     //std::vector<saidx_t> suffixarray;
@@ -141,58 +170,19 @@ int main(int argc, char const* const* argv) {
     //      To make the `reference` compatible with libdivsufsort you can simply
     //      cast it by calling:
     //      `sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());`
-
-
-    //int n = reference.size();
-    int i,j; // for debugging output
-    const char* str_source = "pandapapayas";
-    //sauchar_t* str = "pandapapayays";
-    int n = strlen(str_source);
-    sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source);
-    // allocate
+    int n = reference.size();
+    sauchar_t const* ref = reinterpret_cast<sauchar_t const*>(reference.data());
     int *SA = (int *)malloc(n * sizeof(int));
+    divsufsort((sauchar_t*)ref, SA, n);
 
-    //sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());
-    // sort
-    //divsufsort((unsigned char *)str, SA, n);
-
-    
-    divsufsort((sauchar_t*)str, SA, n);
-
+    // suffix array search
     for (auto& q : queries) {
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
+        int m = q.size();
+        sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
+        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
     }
-
-    //std::string text = "pandapapayays";
-    //std::string query = "pa";
-
-   
-
-    // output
-    for(i = 0; i < n; ++i) {
-        printf("SA[%2d] = %2d: ", i, SA[i]);
-        for(j = SA[i]; j < n; ++j) {
-            printf("%c", str[j]);
-        }
-        printf("$\n");
-    }
-
-    const char* query_source = "pa";
-    int m = strlen(query_source);
-    sauchar_t const* query = reinterpret_cast<sauchar_t const*>(query_source);
-    std::cout<<"start\n";
-    find((sauchar_t*)query,(sauchar_t*)str, SA, m, n);
-
-    /*
-    find(query, sa, text, hits);
-
-    std::cout << query << ": ";
-    for (unsigned i = 0; i < sa.size(); ++i) {
-        std::cout << sa[i] << " ";
-    }
-    */
-    //std::cout<<std::endl;
 
     // deallocate
     free(SA);
