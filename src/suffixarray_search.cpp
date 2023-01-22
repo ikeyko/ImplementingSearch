@@ -56,7 +56,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         else left = middle;
     }
 
-    if 
+    
 
     Lp = right;
     std::cout<<" Lp: "<<Lp<<"\n";
