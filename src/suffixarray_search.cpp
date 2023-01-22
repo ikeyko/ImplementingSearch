@@ -301,8 +301,11 @@ int main(int argc, char const* const* argv) {
 
 
     //int n = reference.size();
-    sauchar_t const* str = "pandapapayays";
-    int n = *str.length();
+    int i,j;
+    //char *Text = "abracadabra";
+    //int n = strlen(Text);
+    sauchar_t* str = "pandapapayays";
+    int n = strlen(str);
     // allocate
     int *SA = (int *)malloc(n * sizeof(int));
 
