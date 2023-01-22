@@ -304,7 +304,7 @@ int main(int argc, char const* const* argv) {
     int i,j;
     //char *Text = "abracadabra";
     //int n = strlen(Text);
-    const char* str_source = "pandapapayays";
+    const char* str_source = "pandapapayas";
     //sauchar_t* str = "pandapapayays";
     int n = strlen(str_source);
     sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source);
