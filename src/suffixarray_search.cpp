@@ -33,6 +33,9 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     int left = 0;
     int right = n+1;
     int middle;
+    std::cout<<"query0: "<<query[0]<<"\n";
+    std::cout<<"text[SA[n]]: "<<text[SA[n]]<<"\n";
+    std::cout<<"text[SA[0]]: "<<text[SA[0]]<<"\n";
 
     while (right - left > 1) {
         middle = ceil((left + right)/2);
@@ -52,6 +55,8 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         if (query[0] <= text[SA[middle]]) right = middle;
         else left = middle;
     }
+
+    if 
 
     Lp = right;
     std::cout<<" Lp: "<<Lp<<"\n";
