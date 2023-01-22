@@ -14,6 +14,7 @@
 
 void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
     
+    std::cout<<"start find\n";
     std::vector<uint32_t> hits;
     
     //unsigned n = sa.size() - 1;
@@ -176,8 +177,8 @@ int main(int argc, char const* const* argv) {
     const char* query_source = "pa";
     int m = strlen(query_source);
     sauchar_t const* query = reinterpret_cast<sauchar_t const*>(query_source);
-    
-    find((sauchar_t*)query,(sauchar_t*)str, SA, m,n);
+    std::cout<<"start\n";
+    find((sauchar_t*)query,(sauchar_t*)str, SA, m, n);
 
     /*
     find(query, sa, text, hits);
