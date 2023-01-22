@@ -33,9 +33,6 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     int left = 0;
     int right = n+1;
     int middle;
-    std::cout<<"query0: "<<query[0]<<"\n";
-    std::cout<<"text[SA[n]]: "<<text[SA[n]]<<"\n";
-    std::cout<<"text[SA[0]]: "<<text[SA[0]]<<"\n";
 
     while (right - left > 1) {
         middle = ceil((left + right)/2);
@@ -43,9 +40,8 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         else right = middle;
     }
 
-    std::cout<<"left: "<<left<<" right: "<<right<<" middle: "<<middle<<"\n";
     Rp = left;
-    std::cout<<"Rp: "<<Rp;
+
     //looking for left interval bound
     left = -1;
     right = Rp;
@@ -59,17 +55,21 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     
 
     Lp = right;
-    std::cout<<" Lp: "<<Lp<<"\n";
-    std::cout<<"left: "<<left<<" right: "<<right<<" middle: "<<middle<<"\n";
+
     unsigned index = 0; //Suffix index
+
+    std::cout<<"Rp: "<<Rp<<" Lp: "<<Lp<<" index: "<<index<<"\n";
 
     while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
         while (Rp >= Lp && query[index] != text[SA[Lp]+index]){ //check left suffix
             ++Lp; //go to next suffix
+            std::cout<<".";
         }
+        std::cout<<"\n";
         //cout<<"Lp= "<<Lp<<endl;
         while (Rp >= Lp && query[index] != text[SA[Rp]+index]) { //check right suffix
             --Rp; //go to previous suffix
+            std::cout<<",";
         }
 
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
