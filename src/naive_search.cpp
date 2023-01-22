@@ -47,6 +47,10 @@ int main(int argc, char const* const* argv) {
     auto query_file = std::filesystem::path{};
     parser.add_option(query_file, '\0', "query", "path to the query file");
 
+    size_t query_size{};
+    size_t query_size_default = 100;
+    parser.add_option(query_size, 's', "query-size", "Size of query vector");
+
     try {
          parser.parse();
     } catch (seqan3::argument_parser_error const& ext) {
@@ -54,6 +58,7 @@ int main(int argc, char const* const* argv) {
         return EXIT_FAILURE;
     }
 
+    if ( ! (query_size > 100 && query_size < 1000000 ) )  query_size = query_size_default;
 
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
@@ -71,19 +76,20 @@ int main(int argc, char const* const* argv) {
         queries.push_back(record.sequence());
     }
 
-    //!TODO !CHANGEME here adjust the number of searches
-    if (queries.size() > 100) {
-        queries.resize(100);    // will reduce the amount of searches
-    }
 
     //! search for all occurences of queries inside of reference
     std::vector<std::vector<seqan3::dna5>> queries_resized;    
     for (int i = 1; i<=10; ++i) {
         queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
+        if ( queries_resized.size() > query_size ) i = 99;
     }
  
+    int iPercent = 0;
+    int iPercentShow = -1;
+    int iCounter = 0;
+
     //for (int i = 1000000; i>=1000; i=i/10) {
-        queries_resized.resize(10000);
+        queries_resized.resize(query_size);
         auto start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries_resized) {
@@ -91,6 +97,11 @@ int main(int argc, char const* const* argv) {
                 // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
                 //seqan3::debug_stream << q << ": ";
                 findOccurences(r, q);
+                iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
+                if (iPercent > iPercentShow) {
+                    std::cout << iPercent << "% " << flush;
+                    iPercentShow += 5;
+                }
             } 
         }    
         auto stop = high_resolution_clock::now();

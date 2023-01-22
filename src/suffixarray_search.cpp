@@ -233,8 +233,8 @@ int main(int argc, char const* const* argv) {
             find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
             iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
             if (iPercent > iPercentShow) {
-                std::cout << iPercent << "% ";
-                iPercentShow += 10;
+                std::cout << iPercent << "% " << flush;
+                iPercentShow += 5;
             }
         } 
         stop = high_resolution_clock::now();
