@@ -13,7 +13,7 @@
 
 
 void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
-    seqan3::debug_stream << query << ": ";
+    
     bool found = false;
     
     std::vector<uint32_t> hits;
@@ -185,6 +185,7 @@ int main(int argc, char const* const* argv) {
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
         int m = q.size();
+        seqan3::debug_stream << q << ": ";
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
         find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
     }
