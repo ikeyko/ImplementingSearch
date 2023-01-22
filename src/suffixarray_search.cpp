@@ -73,7 +73,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     while (Rp >= Lp) {
         hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
     }
-    sort(hits.begin(), hits.end());
+    //sort(hits.begin(), hits.end());
 /*
     if (hits.size() != 0) {
         if (!found) {
@@ -87,7 +87,7 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     if(!found) std::cout << "couldn't find it."; 
     std::cout<<"\n";
 */    
-    hits.clear();
+  //  hits.clear();
 
 }
 
@@ -104,6 +104,9 @@ int main(int argc, char const* const* argv) {
     auto query_file = std::filesystem::path{};
     parser.add_option(query_file, '\0', "query", "path to the query file");
 
+    size_t query_size{};
+    parser.add_option(query_size, 's', "query-size", "Size of query vector");
+
     try {
          parser.parse();
     } catch (seqan3::argument_parser_error const& ext) {
@@ -114,7 +117,7 @@ int main(int argc, char const* const* argv) {
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
     auto query_stream     = seqan3::sequence_file_input{query_file};
-
+    
     // read reference into memory
     // Attention: we are concatenating all sequences into one big combined sequence
     //            this is done to simplify the implementation of suffix_arrays
@@ -207,7 +210,7 @@ int main(int argc, char const* const* argv) {
     }
  
     //for (int i = 1000000; i>=1000; i=i/10) {
-        queries_resized.resize(10000);
+        queries_resized.resize(query_size);
         start = high_resolution_clock::now();
         for (auto& q : queries_resized) {
             //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
