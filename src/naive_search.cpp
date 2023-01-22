@@ -2,6 +2,8 @@
 
 #include <seqan3/std/filesystem>
 
+#include <chrono>
+
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/argument_parser/all.hpp>
 #include <seqan3/core/debug_stream.hpp>
@@ -9,25 +11,27 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
+using namespace std::chrono;
+
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dna5> const& query) {
  
-    bool found = false;
-    seqan3::debug_stream << query << ": ";
+    //bool found = false;
+    //seqan3::debug_stream << query << ": ";
     auto res = std::begin(ref);
     while (res != std::end(ref)) {
         res = std::search(res, std::end(ref), std::begin(query), std::end(query));
         if(res != std::end(ref)) {
-            if (!found) {
-                found = true;
-                std::cout << "found it at the position(s):";
-                }
-            std::cout << " " << res - ref.begin();
+            //if (!found) {
+                //found = true;
+                //std::cout << "found it at the position(s):";
+                //}
+            //std::cout << " " << res - ref.begin();
             res ++;           
         }
     } 
-    if(!found) std::cout << "couldn't find it."; 
-    std::cout << "\n";
+   // if(!found) std::cout << "couldn't find it."; 
+   // std::cout << "\n";
     
 }
 
@@ -73,11 +77,34 @@ int main(int argc, char const* const* argv) {
     }
 
     //! search for all occurences of queries inside of reference
+    std::vector<std::vector<seqan3::dna5>> queries_resized;    
+    for (int i = 1; i<=10; ++i) {
+        queries_resized.insert(queries_resized.end(), queries.begin(), queries.end());
+    }
+ 
+    for (int i = 1000000; i>=1000; i=i/10) {
+        queries_resized.resize(i);
+        start = high_resolution_clock::now();
+        for (auto& r : reference) {
+            for (auto& q : queries_resized) {
+                //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
+                // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
+                //seqan3::debug_stream << q << ": ";
+                findOccurences(r, q);
+            } 
+        }    
+        stop = high_resolution_clock::now();
+        duration = duration_cast<microseconds>(stop - start);
+        //
+        std::cout << "Time taken by naive search in " << queries_resized.size() << " queries: "
+            << duration.count() << " microseconds" << "\n";
+    }
+/*
     for (auto& r : reference) {
         for (auto& q : queries) {
             findOccurences(r, q);
         }
     }
-
+*/
     return 0;
 }
