@@ -36,7 +36,7 @@ void construct(std::vector<uint32_t>& sa, const std::string& text) {
         r = sa.size()-1;
         m = ceil(double(r)/2);
 
-        while (l <= r){    
+        while (l < r){    
 
             if(text[index] > text[sa[m]]) {             
                 l = m;                                  
@@ -299,16 +299,30 @@ int main(int argc, char const* const* argv) {
     //      cast it by calling:
     //      `sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());`
 
+
+    //int n = reference.size();
+    sauchar_t const* str = "pandapapayays";
+    int n = *str.length();
+    // allocate
+    int *SA = (int *)malloc(n * sizeof(int));
+
+    //sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());
+    // sort
+    //divsufsort((unsigned char *)str, SA, n);
+
+    
+    divsufsort((unsigned char *)str, SA, n);
+
     for (auto& q : queries) {
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
     }
 
-    std::string text = "pandapapayays";
-    std::string query = "pa";
+    //std::string text = "pandapapayays";
+    //std::string query = "pa";
 
  //   std::string text = "hello";
-
+/*
     std::vector<uint32_t> sa;// = {1,4,6,10,8,3,2,0,5,7,11,9};
 
     std::vector<uint32_t> hits;
@@ -319,6 +333,16 @@ int main(int argc, char const* const* argv) {
     for (unsigned i = 0; i < sa.size(); ++i) {
         std::cout << sa[i] << " ";
     }
+*/
+    // output
+    for(i = 0; i < n; ++i) {
+        printf("SA[%2d] = %2d: ", i, SA[i]);
+        for(j = SA[i]; j < n; ++j) {
+            printf("%c", Text[j]);
+        }
+        printf("$\n");
+    }
+
     /*
     find(query, sa, text, hits);
 
@@ -327,7 +351,10 @@ int main(int argc, char const* const* argv) {
         std::cout << sa[i] << " ";
     }
     */
-    std::cout<<std::endl;
+    //std::cout<<std::endl;
+
+    // deallocate
+    free(SA);
 
     return 0;
 }
