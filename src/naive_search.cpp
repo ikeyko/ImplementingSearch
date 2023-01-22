@@ -110,7 +110,7 @@ int main(int argc, char const* const* argv) {
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
         //
-        std::cout << "Time taken by naive search in " << queries_resized.size() << " queries: "
+        std::cout << "\n" << "Time taken by naive search in " << queries_resized.size() << " queries: "
             << duration.count() << " microseconds" << "\n";
     //}
 /*
