@@ -93,6 +93,7 @@ int main(int argc, char const* const* argv) {
         auto start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries_resized) {
+                iCounter++;
                 //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
                 // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
                 //seqan3::debug_stream << q << ": ";
