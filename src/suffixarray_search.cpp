@@ -12,7 +12,7 @@
 #include <seqan3/search/search.hpp>
 
 
-void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n, std::vector<seqan3::dna5>& reference) {
+void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n, std::vector<seqan3::dna5>& reference, std::vector<seqan3::dna5>& q) {
     
     bool found = false;
     
@@ -77,10 +77,19 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
         
         std::cout<<"\n";std::cout<<"\n";
+        td::cout<<"L: ";
         for (int i = Lp; i<Lp+m; ++i) {
+            s
             seqan3::debug_stream << reference[i];
         }
         std::cout<<"\n";
+        td::cout<<"Q: ";
+        for (int i = 0; i<m; ++i) {
+
+            seqan3::debug_stream << q[i];
+        }
+        std::cout<<"\n";
+        td::cout<<"R: ";
         for (int i = Rp; i<Rp+m; ++i) {
             seqan3::debug_stream << reference[i];
         }
@@ -212,7 +221,7 @@ int main(int argc, char const* const* argv) {
         int m = q.size();
         seqan3::debug_stream << q << ": ";
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
-        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n, reference);
+        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n, reference,q);
     }
 
     // deallocate
