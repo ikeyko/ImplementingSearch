@@ -107,7 +107,7 @@ int main(int argc, char const* const* argv) {
                 //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
                 // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
                 for (auto& nucleotide : q){
-                    std::cout<<seqan3::to_char<(nucleotide); 
+                    std::cout<<seqan3::to_char(nucleotide); 
                 }
                 std::cout<< ": ";
 

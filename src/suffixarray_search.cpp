@@ -200,7 +200,7 @@ int main(int argc, char const* const* argv) {
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
         int m = q.size();
         for (auto& nucleotide : q){
-            std::cout<<seqan3::to_char<(nucleotide); 
+            std::cout<<seqan3::to_char(nucleotide); 
         }
         std::cout<< ": ";
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
