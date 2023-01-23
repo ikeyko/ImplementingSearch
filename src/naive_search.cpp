@@ -13,6 +13,7 @@
 #include <seqan3/search/search.hpp>
 
 using namespace std::chrono;
+using namespace seqan3::literals;
 
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dna5> const& query) {

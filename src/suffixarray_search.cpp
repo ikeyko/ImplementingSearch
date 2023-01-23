@@ -15,6 +15,7 @@
 #include <seqan3/search/search.hpp>
 
 using namespace std::chrono;
+using namespace seqan3::literals;
 
 void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
     unsigned index = 0; //Suffix index
