@@ -15,14 +15,13 @@
 
 using namespace std::chrono;
 
-
 void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m, saidx_t n) {
+    unsigned index = 0; //Suffix index
+
+     bool found = false;
     
-    bool found = false;
-    
-    std::vector<uint32_t> hits;
-    
-    //unsigned n = sa.size() - 1;
+    // vector with positions
+    //std::vector<uint32_t> hits;
 
     if (n == 0) return;
 
@@ -31,63 +30,59 @@ void find(sauchar_t const* query, const sauchar_t* text, saidx_t *SA, saidx_t m,
     if (query[0] < text[SA[0]]) return;
 
 
-    unsigned Lp, Rp;
+    //unsigned Lp, Rp;
 
     //looking for right interval bound
     int left = 0;
-    int right = n+1;
+    int right = n;
     int middle;
 
-    while (right - left > 1) {
-        middle = ceil((left + right)/2);
-        if (query[0] >= text[SA[middle]]) left = middle;
-        else right = middle;
-    }
+    int Lp = 0;
+    int Rp = n;
 
-    Rp = left;
-
-    //looking for left interval bound
-    left = -1;
-    right = Rp;
-
-    while (right - left > 1) {
-        middle = ceil((left + right)/2);
-        if (query[0] <= text[SA[middle]]) right = middle;
-        else left = middle;
-    }
-
-    Lp = right;
-
-    unsigned index = 0; //Suffix index
 
     while (Rp >= Lp && index < m) { //repeat check until full pattern found. Stop if bounds crossed
 
-        while (Rp >= Lp && query[index] != text[SA[Lp]+index]){ //check left suffix
-            ++Lp; //go to next suffix           
+        left = Lp - 1;
+        right = Rp;
+
+        while (right - left > 1) {
+            middle = ceil((left + right)/2);
+            if (query[index] <= text[SA[middle]+index]) right = middle;
+            else left = middle;
         }
-        while (Rp >= Lp && query[index] != text[SA[Rp]+index]) { //check right suffix
-            --Rp; //go to previous suffix           
-        }      
+
+        Lp = right;
+        left = Lp;
+        right = Rp + 1;
+
+        while (right - left > 1) {
+            middle = ceil((left + right)/2);
+            if (query[index] >= text[SA[middle]+index]) left = middle;
+            else right = middle;
+        }
+
+        Rp = left;
+
+        //looking for left interval bound
+        //left = Lp;
+        //right = Rp;
+        if (text[SA[Lp] + index] != query[index]) {Lp = n+1;} 
+        if (text[SA[Rp] + index] != query[index]) {Rp = -1;} 
+
         if (Rp >= Lp) index++; //if check for both suffixes successfull, go to next char
     }
+
     while (Rp >= Lp) {
-        hits.push_back(SA[Lp++]); //push every alignment between bounds in vector hits
-    }
-    //sort(hits.begin(), hits.end());
-/*
-    if (hits.size() != 0) {
         if (!found) {
                 found = true;
-                std::cout << "found it at the position(s):";
+                std::cout << "found it at the position(s): ";
                 }
-        for (unsigned i = 0; i < hits.size(); ++i) {
-            std::cout << " " << hits[i] ;
-        }
+        std::cout << SA[Lp++]<<" ";
     }
+
     if(!found) std::cout << "couldn't find it."; 
     std::cout<<"\n";
-*/    
-  //  hits.clear();
 
 }
 
@@ -138,41 +133,6 @@ int main(int argc, char const* const* argv) {
 
     std::cout<<"Start SA with query size = "<<query_size<<"\n";
 
-    //!TODO here adjust the number of searches
-    //queries.resize(100); // will reduce the amount of searches
-    /*
-    std::cout<<"Number of queries: "<<queries.size()<<"\n";  
-    if (queries.size() > 100) {
-        queries.resize(100);    // will reduce the amount of searches
-    }
-    */
-
-
-
-    // BEGIN TEST WITH PANDAPAPAYAS
-    //int i,j; // for debugging output
-    //const char* str_source = "pandapapayas";
-    //int n = strlen(str_source);
-    //sauchar_t const* str = reinterpret_cast<sauchar_t const*>(str_source);
-    //int *SA = (int *)malloc(n * sizeof(int));
-    //divsufsort((sauchar_t*)str, SA, n);
-    // output
-    /*
-    for(i = 0; i < n; ++i) {
-        printf("SA[%2d] = %2d: ", i, SA[i]);
-        for(j = SA[i]; j < n; ++j) {
-            printf("%c", str[j]);
-        }
-        printf("$\n");
-    }
-    //test search
-    const char* query_source = "pa";
-    int m = strlen(query_source);
-    sauchar_t const* query = reinterpret_cast<sauchar_t const*>(query_source);
-    find((sauchar_t*)query,(sauchar_t*)str, SA, m, n);
-    */
-   //END TEST
-
 
     // suffix array construction
 
@@ -187,8 +147,8 @@ int main(int argc, char const* const* argv) {
     //      To make the `reference` compatible with libdivsufsort you can simply
     //      cast it by calling:
     //      `sauchar_t const* str = reinterpret_cast<sauchar_t const*>(reference.data());`
- 
-    
+
+
 
     int n = reference.size();
     sauchar_t const* ref = reinterpret_cast<sauchar_t const*>(reference.data());
@@ -202,13 +162,14 @@ int main(int argc, char const* const* argv) {
     // Get ending timepoint
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    //
+    
     std::cout << "Time taken by SA construction: "
          << duration.count() << " microseconds" << "\n";
 
 
     // suffix array search
 
+    // adjust queries vector size
     std::vector<std::vector<seqan3::dna5>> queries_temp; 
     if ( queries.size() > query_size ) {
         queries.resize(query_size); 
@@ -221,34 +182,38 @@ int main(int argc, char const* const* argv) {
         queries_temp.clear();
     }
     
-
+    /*
+    // for progress bar
     int iPercent = 0;
     int iPercentShow = -1;
     int iCounter = 0;
- 
-    //for (int i = 1000000; i>=1000; i=i/10) {
-        queries.resize(query_size);
-        start = high_resolution_clock::now();
-        for (auto& q : queries) {
-            iCounter++;
-            //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
-            // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
-            int m = q.size();
-            //seqan3::debug_stream << q << ": ";
-            sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
-            find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
-            iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
-            if (iPercent > iPercentShow) {
-                std::cout << iPercent << "% " << std::flush;
-                iPercentShow += 5;
-            }
-        } 
-        stop = high_resolution_clock::now();
-        duration = duration_cast<microseconds>(stop - start);
-        //
-        std::cout << "\n" << "Time taken by SA search in " << queries.size() << " queries: "
-            << duration.count() << " microseconds" << "\n";
-   // }
+    */
+    
+    queries.resize(query_size);
+    start = high_resolution_clock::now();
+    for (auto& q : queries) {
+        //iCounter++; // for progress bar
+        //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
+        // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
+        int m = q.size();
+        seqan3::debug_stream << q << ": ";
+        sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
+        // search function
+        find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
+        // progress bar
+        /*
+        iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
+        if (iPercent > iPercentShow) {
+            std::cout << iPercent << "% " << std::flush;
+            iPercentShow += 5;
+        }*/
+    } 
+    stop = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start);
+    //
+    std::cout << "\n" << "Time taken by SA search in " << queries.size() << " queries: "
+        << duration.count() << " microseconds" << "\n";
+   
     
     // deallocate
     free(SA);
