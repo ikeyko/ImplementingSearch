@@ -133,7 +133,7 @@ int main(int argc, char const* const* argv) {
         queries.push_back(record.sequence());
     }
 
-    std::cout<<"Start SA with query size = "<<queries_size<<"\n";
+    //std::cout<<"Start SA with query size = "<<queries_size<<"\n";
 
 
     // suffix array construction
