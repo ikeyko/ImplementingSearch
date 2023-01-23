@@ -18,7 +18,7 @@ using namespace seqan3::literals;
 // prints out all occurences of query inside of ref
 void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dna5> const& query) {
  
-    //bool found = false;
+    bool found = false;
     //seqan3::debug_stream << query << ": ";
     auto res = std::begin(ref);
     while (res != std::end(ref)) {
