@@ -99,9 +99,9 @@ int main(int argc, char const* const* argv) {
     auto query_file = std::filesystem::path{};
     parser.add_option(query_file, '\0', "query", "path to the query file");
 
-    size_t query_size{};
-    size_t query_size_default = 100;
-    parser.add_option(query_size, 's', "query-size", "Size of query vector");
+    size_t queries_size{};
+    size_t queries_size_default = 100;
+    parser.add_option(queries_size, 's', "queries-size", "Size of queries vector");
 
     try {
          parser.parse();
@@ -110,7 +110,7 @@ int main(int argc, char const* const* argv) {
         return EXIT_FAILURE;
     }
 
-    if ( ! (query_size > 100 && query_size <= 1000000 ) )  query_size = query_size_default;
+    if ( ! (queries_size > 0 && queries_size <= 1000000 ) )  queries_size = queries_size_default;
 
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
@@ -131,7 +131,7 @@ int main(int argc, char const* const* argv) {
         queries.push_back(record.sequence());
     }
 
-    std::cout<<"Start SA with query size = "<<query_size<<"\n";
+    std::cout<<"Start SA with query size = "<<queries_size<<"\n";
 
 
     // suffix array construction
@@ -163,21 +163,22 @@ int main(int argc, char const* const* argv) {
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     
+    /*
     std::cout << "Time taken by SA construction: "
          << duration.count() << " microseconds" << "\n";
-
+    */
 
     // suffix array search
 
     // adjust queries vector size
     std::vector<std::vector<seqan3::dna5>> queries_temp; 
-    if ( queries.size() > query_size ) {
-        queries.resize(query_size); 
+    if ( queries.size() > queries_size ) {
+        queries.resize(queries_size); 
     } else {
         queries_temp.insert(queries_temp.end(), queries.begin(), queries.end());
         for (int i = 1; i<=10; ++i) {
             queries.insert(queries.end(), queries_temp.begin(), queries_temp.end());
-            if ( queries.size() >= query_size ) i = 99;
+            if ( queries.size() >= queries_size ) i = 99;
         }
         queries_temp.clear();
     }
@@ -189,20 +190,23 @@ int main(int argc, char const* const* argv) {
     int iCounter = 0;
     */
     
-    queries.resize(query_size);
+    queries.resize(queries_size);
     start = high_resolution_clock::now();
     for (auto& q : queries) {
         //iCounter++; // for progress bar
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
         int m = q.size();
-        seqan3::debug_stream << q << ": ";
+        for (auto& nucleotide : q){
+            std::cout<<seqan3::to_char<(nucleotide); 
+        }
+        std::cout<< ": ";
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
         // search function
         find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
         // progress bar
         /*
-        iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
+        iPercent = (int)((static_cast<float>(iCounter) / queries_size) * 100);
         if (iPercent > iPercentShow) {
             std::cout << iPercent << "% " << std::flush;
             iPercentShow += 5;
@@ -211,9 +215,10 @@ int main(int argc, char const* const* argv) {
     stop = high_resolution_clock::now();
     duration = duration_cast<microseconds>(stop - start);
     //
+    /*
     std::cout << "\n" << "Time taken by SA search in " << queries.size() << " queries: "
         << duration.count() << " microseconds" << "\n";
-   
+   */
     
     // deallocate
     free(SA);

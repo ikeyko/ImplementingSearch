@@ -22,16 +22,16 @@ void findOccurences(std::vector<seqan3::dna5> const& ref, std::vector<seqan3::dn
     while (res != std::end(ref)) {
         res = std::search(res, std::end(ref), std::begin(query), std::end(query));
         if(res != std::end(ref)) {
-            //if (!found) {
-                //found = true;
-                //std::cout << "found it at the position(s):";
-                //}
-            //std::cout << " " << res - ref.begin();
+            if (!found) {
+                found = true;
+                std::cout << "found it at the position(s):";
+                }
+            std::cout << " " << res - ref.begin();
             res ++;           
         }
     } 
-   // if(!found) std::cout << "couldn't find it."; 
-   // std::cout << "\n";
+    if(!found) std::cout << "couldn't find it."; 
+    std::cout << "\n";
     
 }
 
@@ -47,9 +47,9 @@ int main(int argc, char const* const* argv) {
     auto query_file = std::filesystem::path{};
     parser.add_option(query_file, '\0', "query", "path to the query file");
 
-    size_t query_size{};
-    size_t query_size_default = 100;
-    parser.add_option(query_size, 's', "query-size", "Size of query vector");
+    size_t queries_size{};
+    size_t queries_size_default = 100;
+    parser.add_option(queries_size, 's', "query-size", "Size of query vector");
 
     try {
          parser.parse();
@@ -58,9 +58,9 @@ int main(int argc, char const* const* argv) {
         return EXIT_FAILURE;
     }
 
-    if ( ! (query_size > 100 && query_size <= 1000000 ) )  query_size = query_size_default;
+    if ( ! (queries_size > 0 && queries_size <= 1000000 ) )  queries_size = queries_size_default;
 
-    std::cout<<"Start NAIVE with query size = "<<query_size<<"\n";
+    //std::cout<<"Start NAIVE with query size = "<<queries_size<<"\n";
 
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
@@ -81,13 +81,13 @@ int main(int argc, char const* const* argv) {
 
     //! search for all occurences of queries inside of reference
     std::vector<std::vector<seqan3::dna5>> queries_temp; 
-    if ( queries.size() > query_size ) {
-        queries.resize(query_size); 
+    if ( queries.size() > queries_size ) {
+        queries.resize(queries_size); 
     } else {
         queries_temp.insert(queries_temp.end(), queries.begin(), queries.end());
         for (int i = 1; i<=10; ++i) {
             queries.insert(queries.end(), queries_temp.begin(), queries_temp.end());
-            if ( queries.size() >= query_size ) i = 99;
+            if ( queries.size() >= queries_size ) i = 99;
         }
         queries_temp.clear();
     }
@@ -97,27 +97,34 @@ int main(int argc, char const* const* argv) {
     int iCounter = 0;
 
     //for (int i = 1000000; i>=1000; i=i/10) {
-        queries.resize(query_size);
+        queries.resize(queries_size);
         auto start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries) {
-                iCounter++;
+                //iCounter++;
                 //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
                 // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
-                //seqan3::debug_stream << q << ": ";
+                for (auto& nucleotide : q){
+                    std::cout<<seqan3::to_char<(nucleotide); 
+                }
+                std::cout<< ": ";
+                
                 findOccurences(r, q);
-                iPercent = (int)((static_cast<float>(iCounter) / query_size) * 100);
+                /*
+                iPercent = (int)((static_cast<float>(iCounter) / queries_size) * 100);
                 if (iPercent > iPercentShow) {
                     std::cout << iPercent << "% " << std::flush;
                     iPercentShow += 5;
                 }
+                */
             } 
         }    
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
         //
+        /*
         std::cout << "\n" << "Time taken by naive search in " << queries.size() << " queries: "
-            << duration.count() << " microseconds" << "\n";
+            << duration.count() << " microseconds" << "\n";*/
     //}
 /*
     for (auto& r : reference) {
