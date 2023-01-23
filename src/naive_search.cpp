@@ -5,6 +5,7 @@
 #include <chrono>
 
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
+#include <seqan3/alphabet/adaptation/char.hpp>
 #include <seqan3/argument_parser/all.hpp>
 #include <seqan3/core/debug_stream.hpp>
 #include <seqan3/io/sequence_file/all.hpp>
@@ -108,7 +109,7 @@ int main(int argc, char const* const* argv) {
                     std::cout<<seqan3::to_char<(nucleotide); 
                 }
                 std::cout<< ": ";
-                
+
                 findOccurences(r, q);
                 /*
                 iPercent = (int)((static_cast<float>(iCounter) / queries_size) * 100);
