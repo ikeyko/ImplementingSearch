@@ -51,7 +51,7 @@ int main(int argc, char const* const* argv) {
 
     size_t queries_size{};
     size_t queries_size_default = 100;
-    parser.add_option(queries_size, 's', "query-size", "Size of query vector");
+    parser.add_option(queries_size, 's', "queries-size", "Size of query vector");
 
     try {
          parser.parse();
