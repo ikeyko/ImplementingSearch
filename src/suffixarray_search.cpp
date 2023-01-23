@@ -134,7 +134,7 @@ int main(int argc, char const* const* argv) {
     }
 
     //std::cout<<"Start SA with query size = "<<queries_size<<"\n";
-
+    seqan3::debug_stream << "Start SA with query size = " << queries_size << "\n";
 
     // suffix array construction
 
@@ -169,6 +169,8 @@ int main(int argc, char const* const* argv) {
     std::cout << "Time taken by SA construction: "
          << duration.count() << " microseconds" << "\n";
     */
+    seqan3::debug_stream <<"Time taken by SA construction: "
+         << duration.count() << " microseconds" << "\n";
 
     // suffix array search
 
@@ -185,17 +187,17 @@ int main(int argc, char const* const* argv) {
         queries_temp.clear();
     }
     
-    /*
+    
     // for progress bar
     int iPercent = 0;
     int iPercentShow = -1;
     int iCounter = 0;
-    */
+    
     
     queries.resize(queries_size);
     start = high_resolution_clock::now();
     for (auto& q : queries) {
-        //iCounter++; // for progress bar
+        iCounter++; // for progress bar
         //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
         // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
         int m = q.size();
@@ -206,17 +208,20 @@ int main(int argc, char const* const* argv) {
         sauchar_t const* query = reinterpret_cast<sauchar_t const*>(q.data());
         // search function
         find((sauchar_t*)query,(sauchar_t*)ref, SA, m, n);
-        // progress bar
-        /*
+        
+        
         iPercent = (int)((static_cast<float>(iCounter) / queries_size) * 100);
         if (iPercent > iPercentShow) {
-            std::cout << iPercent << "% " << std::flush;
+            seqan3::debug_stream <<iPercent << "% " << std::flush;
+            //std::cout << iPercent << "% " << std::flush;
             iPercentShow += 5;
-        }*/
+        }
     } 
     stop = high_resolution_clock::now();
     duration = duration_cast<microseconds>(stop - start);
     //
+    seqan3::debug_stream << "\n" <<"Time taken by SA search in " << queries.size() << " queries: "
+        << duration.count() << " microseconds" << "\n";
     /*
     std::cout << "\n" << "Time taken by SA search in " << queries.size() << " queries: "
         << duration.count() << " microseconds" << "\n";

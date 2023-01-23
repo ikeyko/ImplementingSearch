@@ -63,7 +63,7 @@ int main(int argc, char const* const* argv) {
     if ( ! (queries_size > 0 && queries_size <= 1000000 ) )  queries_size = queries_size_default;
 
     //std::cout<<"Start NAIVE with query size = "<<queries_size<<"\n";
-
+    seqan3::debug_stream << "Start NAIVE with query size = "<<queries_size<<"\n";
     // loading our files
     auto reference_stream = seqan3::sequence_file_input{reference_file};
     auto query_stream     = seqan3::sequence_file_input{query_file};
@@ -103,7 +103,7 @@ int main(int argc, char const* const* argv) {
         auto start = high_resolution_clock::now();
         for (auto& r : reference) {
             for (auto& q : queries) {
-                //iCounter++;
+                iCounter++;
                 //!TODO !ImplementMe apply binary search and find q  in reference using binary search on `suffixarray`
                 // You can choose if you want to use binary search based on "naive approach", "mlr-trick", "lcp"
                 for (auto& nucleotide : q){
@@ -112,17 +112,20 @@ int main(int argc, char const* const* argv) {
                 std::cout<< ": ";
 
                 findOccurences(r, q);
-                /*
+                
                 iPercent = (int)((static_cast<float>(iCounter) / queries_size) * 100);
                 if (iPercent > iPercentShow) {
-                    std::cout << iPercent << "% " << std::flush;
+                    seqan3::debug_stream << iPercent << "% " << std::flush;
+                    //std::cout << iPercent << "% " << std::flush;
                     iPercentShow += 5;
                 }
-                */
+                
             } 
         }    
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
+         seqan3::debug_stream  << "\n" << "Time taken by naive search in " << queries.size() << " queries: "
+            << duration.count() << " microseconds" << "\n";
         //
         /*
         std::cout << "\n" << "Time taken by naive search in " << queries.size() << " queries: "
