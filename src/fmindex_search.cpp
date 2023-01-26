@@ -91,7 +91,13 @@ int main(int argc, char const* const* argv) {
                         << queries_size << " , errors = " << errors_num << "\n";
     queries.resize(queries_size);
     auto start = high_resolution_clock::now();
-    auto result = search(queries, index, cfg);
+    
+
+    for (auto && result : search("GCT"_dna4, index))
+        //seqan3::debug_stream << result << '\n';
+
+    //std::cout << result.query_id() << ": " <result. <<
+    //auto result = search(queries, index, cfg);
     //seqan3::debug_stream  << result;
 
     auto stop = high_resolution_clock::now();
