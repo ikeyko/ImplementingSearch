@@ -27,7 +27,7 @@ int main(int argc, char const* const* argv) {
 
     size_t errors_num{};
     size_t errors_num_default = 0;
-    parser.add_option(queries_size, 'e', "errors", "Number of errors between 0 and 2");
+    parser.add_option(errors_num, 'e', "errors", "Number of errors between 0 and 2");
 
     try {
          parser.parse();
@@ -68,7 +68,7 @@ int main(int argc, char const* const* argv) {
 
 
     //!TODO here adjust the number of searches
-    queries.resize(10); // will reduce the amount of searches
+    //queries.resize(10); // will reduce the amount of searches
     seqan3::debug_stream << search(queries, index, cfg);
 
     //!TODO !ImplementMe use the seqan3::search function to search
