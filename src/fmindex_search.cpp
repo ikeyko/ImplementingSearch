@@ -93,7 +93,7 @@ int main(int argc, char const* const* argv) {
     auto start = high_resolution_clock::now();
     
 
-    for (auto && result : search("GCT"_dna4, index))
+    for (auto && result : search(queries, index, cfg))
         //seqan3::debug_stream << result << '\n';
 
     //std::cout << result.query_id() << ": " <result. <<
