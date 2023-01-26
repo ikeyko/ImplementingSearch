@@ -2,12 +2,18 @@
 
 #include <seqan3/std/filesystem>
 
+#include <chrono>
+
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/argument_parser/all.hpp>
 #include <seqan3/core/debug_stream.hpp>
 #include <seqan3/io/sequence_file/all.hpp>
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
+
+using namespace std::chrono;
+//using namespace seqan3::literals;
+
 
 int main(int argc, char const* const* argv) {
     seqan3::argument_parser parser{"fmindex_search", argc, argv, seqan3::update_notifications::off};
@@ -68,8 +74,28 @@ int main(int argc, char const* const* argv) {
 
 
     //!TODO here adjust the number of searches
-    //queries.resize(10); // will reduce the amount of searches
+    // adjust queries vector size
+    std::vector<std::vector<seqan3::dna5>> queries_temp; 
+    if ( queries.size() > queries_size ) {
+        queries.resize(queries_size); 
+    } else {
+        queries_temp.insert(queries_temp.end(), queries.begin(), queries.end());
+        for (int i = 1; i<=10; ++i) {
+            queries.insert(queries.end(), queries_temp.begin(), queries_temp.end());
+            if ( queries.size() >= queries_size ) i = 99;
+        }
+        queries_temp.clear();
+    }
+    // FM-Index search
+    queries.resize(queries_size);
+    auto start = high_resolution_clock::now();
     seqan3::debug_stream << search(queries, index, cfg);
+
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    //
+    seqan3::debug_stream << "\n" <<"Time taken by SA search in " << queries.size() << " queries: "
+        << duration.count() << " microseconds" << "\n";
 
     //!TODO !ImplementMe use the seqan3::search function to search
 
