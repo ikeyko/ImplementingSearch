@@ -50,9 +50,10 @@ int main(int argc, char const* const* argv) {
 
     seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{0}};
 
-    //!TODO here adjust the number of searches
-    queries.resize(100); // will reduce the amount of searches
 
+    //!TODO here adjust the number of searches
+    queries.resize(10); // will reduce the amount of searches
+    seqan3::debug_stream << search(queries, index, cfg);
 
     //!TODO !ImplementMe use the seqan3::search function to search
 
