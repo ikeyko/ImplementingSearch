@@ -89,7 +89,8 @@ int main(int argc, char const* const* argv) {
     // FM-Index search
     queries.resize(queries_size);
     auto start = high_resolution_clock::now();
-    std::cout << search(queries, index, cfg);
+    auto result = search(queries, index, cfg);
+    seqan3::debug_stream  << result;
 
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
