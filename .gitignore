@@ -18,3 +18,17 @@ results/sa_100_1M.txt
 results/sa_100_10k.txt
 results/sa_100_100k.txt
 results/sa_100xx_reads_mem.txt
+src/fmindex_search.cpp
+results/fm_1k_1M_mem.txt
+results/fm_1M_40_60_80_100_er_0_mem.txt
+results/fm_1M_40_60_80_100_er_1_mem.txt
+results/fm_10k_40_60_80_100_er_0_mem.txt
+results/fm_10k_40_60_80_100_er_1_mem.txt
+results/fm_10k_40_60_80_100_er_2_mem.txt
+results/fm_100k_40_60_80_100_er_0_mem.txt
+results/fm_100k_40_60_80_100_er_1_mem.txt
+results/fm_100k_40_60_80_100_er_2_mem.txt
+results/time_fm.rtf
+results/time_sa_ns.rtf
+results/time.rtf
+results/time.rtf
