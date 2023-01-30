@@ -100,13 +100,14 @@ int main(int argc, char const* const* argv) {
     //auto result = search(queries, index, cfg);
     //seqan3::debug_stream  << result;
 
+//vhj
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     ////!TODO !ImplementMe use the seqan3::search function to search
     seqan3::debug_stream <<"Time taken by SA search in " << queries.size() << " queries: "
         << duration.count() << " microseconds" << "\n";
 
-    
+    //
 
     return 0;
 }
