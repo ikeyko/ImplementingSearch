@@ -60,7 +60,7 @@ int main(int argc, char const* const* argv) {
         errors_num = errors_num_default;
         seqan3::debug_stream << "This number of errors is not supported. Setting by defaul = 0\n";
     }
-    if (sub_only = 0) seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}}
+    if (sub_only = 0) seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}};
     else seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}}
                                         | seqan3::search_cfg::max_error_substitution{seqan3::search_cfg::error_count{errors_num}};
 
