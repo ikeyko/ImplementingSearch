@@ -8,7 +8,7 @@
 #include <seqan3/search/search.hpp>
 
 void verify (std::vector<seqan3::dna5> const &query, std::vector<seqan3::dna5> const &text, 
-            size_t text_position, size_t pattern_size, seqan3::search_result<long unsigned int> pattern_position, 
+            size_t text_position, size_t pattern_size, size_t pattern_position, 
             size_t query_size, size_t errors ) {
     // for simplicity we search only substitutions
     //size_t i = pattern_position;
