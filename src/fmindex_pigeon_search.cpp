@@ -81,7 +81,7 @@ int main(int argc, char const* const* argv) {
         // DIVIDE
         // devide query on parts almost similar length
         std::vector<std::vector<seqan3::dna5>> parts;
-        std::vector<std::vector<size_t>> parts_begin_positions;
+        std::vector<size_t> parts_begin_positions;
         size_t k = errors_num + 1;
         size_t length = query.size() / k;
         size_t remain = query.size() % k;
