@@ -96,7 +96,7 @@ int main(int argc, char const* const* argv) {
         */
 
        //devide query on parts almost similar length
-       for (unsigned i = 1; i <= errors_num; ++i) {
+       for (int i = 1; i <= errors_num; ++i) {
             cuts[i] = cuts[i - 1] + part_len;
        }
        cuts[errors_num + 1] = m - 1; //last position of rest cut
