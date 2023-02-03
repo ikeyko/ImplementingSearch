@@ -16,7 +16,7 @@ target_link_libraries (fmindex_construct PRIVATE "${PROJECT_NAME}_interface")
 add_executable (fmindex_search fmindex_search.cpp)
 target_link_libraries (fmindex_search PRIVATE "${PROJECT_NAME}_interface")
 
-add_executable (fmindex_pigeon_search fmindex_search.cpp)
+add_executable (fmindex_pigeon_search fmindex_pigeon_search.cpp)
 target_link_libraries (fmindex_pigeon_search PRIVATE "${PROJECT_NAME}_interface")
 
 
