@@ -35,6 +35,10 @@ int main(int argc, char const* const* argv) {
     size_t errors_num_default = 0;
     parser.add_option(errors_num, 'e', "errors", "Number of errors between 0 and 2");
 
+    size_t sub_only{};
+    size_t sub_only_default = 0;
+    parser.add_option(sub_only, 'b', "sub-only", "Enable only substitutions error");
+
     try {
          parser.parse();
     } catch (seqan3::argument_parser_error const& ext) {
@@ -56,6 +60,9 @@ int main(int argc, char const* const* argv) {
         errors_num = errors_num_default;
         seqan3::debug_stream << "This number of errors is not supported. Setting by defaul = 0\n";
     }
+    if (sub_only = 0) seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}}
+    else seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}}
+                                        | seqan3::search_cfg::max_error_substitution{seqan3::search_cfg::error_count{errors_num}};
 
 
 
@@ -70,7 +77,7 @@ int main(int argc, char const* const* argv) {
         seqan3::debug_stream << "done\n";
     }
 
-    seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}};
+    //seqan3::configuration const cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}};
 
 
     //!TODO here adjust the number of searches
