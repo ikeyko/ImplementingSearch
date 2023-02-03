@@ -164,7 +164,7 @@ int main(int argc, char const* const* argv) {
         for (size_t p = 0; p < parts.size(); ++p) {
             //seqan3::debug_stream<<p<<"\n";
             for (auto && position : search(parts[p], index, cfg)) {
-                //seqan3::debug_stream << result.reference_begin_position()<< '\n';
+                seqan3::debug_stream << result.reference_begin_position()<< '\n';
                 /*
                 for (auto& position : result.reference_begin_position ()) {
                 seqan3::debug_stream << position << '\n';
@@ -172,7 +172,7 @@ int main(int argc, char const* const* argv) {
                 */
                
                 //size_t pos = reinterpret_cast<size_t const*>(position);
-                verify(query, reference, pos, parts[p].size(), parts_begin_positions[p], errors_num, query.size());
+                //verify(query, reference, pos, parts[p].size(), parts_begin_positions[p], errors_num, query.size());
 
             }
         }
