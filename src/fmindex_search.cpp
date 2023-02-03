@@ -63,8 +63,7 @@ int main(int argc, char const* const* argv) {
 
     seqan3::configuration cfg;
     if (sub_only = 0) cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}};
-    else cfg = seqan3::search_cfg::max_error_total{seqan3::search_cfg::error_count{errors_num}}
-                                        | seqan3::search_cfg::max_error_substitution{seqan3::search_cfg::error_count{errors_num}};
+    else cfg = seqan3::search_cfg::max_error_substitution{seqan3::search_cfg::error_count{errors_num}};
 
 
 
