@@ -171,7 +171,7 @@ int main(int argc, char const* const* argv) {
                 */
                
 
-                verify(query, reference, position, parts[p].size(), parts_begin_positions[p], errors_num, query.aize());
+                verify(query, reference, position, parts[p].size(), parts_begin_positions[p], errors_num, query.size());
 
             }
         }
