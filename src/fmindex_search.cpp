@@ -88,7 +88,7 @@ int main(int argc, char const* const* argv) {
     // FM-Index search
     seqan3::debug_stream << "Start FM-Index search with size of queries vector = "
                         << queries_size << " , errors = " << errors_num << "\n";
-    queries.resize(queries_size);
+    //queries.resize(queries_size);
     auto start = high_resolution_clock::now();
     
 

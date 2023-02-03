@@ -6,20 +6,20 @@
 #include <seqan3/io/sequence_file/all.hpp>
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
+#include <chrono>
+
+using namespace std::chrono;
 
 void verify (std::vector<seqan3::dna5> const &query, std::vector<seqan3::dna5> const &text, 
             size_t text_position, size_t pattern_size, size_t pattern_position, 
             size_t query_size, size_t errors ) {
+
     // for simplicity we search only substitutions
-    //size_t i = pattern_position;
-    //size_t j = text_position;
-    //size_t j_max = text_position + query.size() - pattern_position - 1;
     size_t j = text_position - pattern_position;
     size_t i = 0;
-    //size_t query_size = query.size();
     size_t err = 0;
 
-    // check right side from pattern && j < text_position + pattern_position
+    // check right side
     while (err <= errors  &&  i < pattern_position) {
         if (text[j] != query[i]) ++err;
         i++;
@@ -27,14 +27,14 @@ void verify (std::vector<seqan3::dna5> const &query, std::vector<seqan3::dna5> c
     }
     j += pattern_size;
     i += pattern_size;
-    // check right side from pattern && j < text_position - pattern_position + query_size
+    // check right side from pattern
     while (err <= errors && i < query_size) {
         if (text[j] != query[i]) ++err;
         i++;
         j++;        
     }
 
-    if (err <= errors ) std::cout<<(text_position - pattern_position)<<" with "<< err <<" errors\n";
+    //if (err <= errors ) std::cout<<(text_position - pattern_position)<<" with "<< err <<" errors\n";
 
 
 }
@@ -126,6 +126,11 @@ int main(int argc, char const* const* argv) {
         queries_temp.clear();
     }
 
+    seqan3::debug_stream << "Start FM-Index search (Pigeonholes) with size of queries vector = "
+                        << queries_size << " , errors = " << errors_num << "\n";
+
+    auto start = high_resolution_clock::now();
+
     for (auto& query : queries) {
         // DIVIDE
         // devide query on parts almost similar length
@@ -153,6 +158,7 @@ int main(int argc, char const* const* argv) {
             begin = end;
         }
         // 
+        /*
         for (auto& part : parts) {
             seqan3::debug_stream<<part<<" ";
         }
@@ -160,6 +166,8 @@ int main(int argc, char const* const* argv) {
         for (auto& pos : parts_begin_positions) {
             std::cout<<pos<<" ";
         }
+        */
+
         // SEARCH
         for (size_t p = 0; p < parts.size(); ++p) {
             //seqan3::debug_stream<<p<<"\n";
@@ -177,12 +185,18 @@ int main(int argc, char const* const* argv) {
                 
 
             }
-            std::cout<<"\n";
+            //std::cout<<"\n";
         }
     
 
 
     }
+
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    ////!TODO !ImplementMe use the seqan3::search function to search
+    seqan3::debug_stream <<"Time taken by SA search in " << queries.size() << " queries: "
+        << duration.count() << " microseconds" << "\n";
 
 
 
