@@ -171,7 +171,7 @@ int main(int argc, char const* const* argv) {
                 }
                 */
                
-                size_t pos = reinterpret_cast<size_t const*>(position.data());
+                size_t pos = reinterpret_cast<size_t const*>(position);
                 verify(query, reference, pos, parts[p].size(), parts_begin_positions[p], errors_num, query.size());
 
             }
