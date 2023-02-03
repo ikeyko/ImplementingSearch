@@ -93,7 +93,7 @@ int main(int argc, char const* const* argv) {
     
 
     for (auto && result : search(queries, index, cfg)) {
-        seqan3::debug_stream << result << '\n';
+        //seqan3::debug_stream << result << '\n';
     }
     //std::cout << result.query_id() << ": " <result. <<
     //auto result = search(queries, index, cfg);
