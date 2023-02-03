@@ -81,6 +81,7 @@ int main(int argc, char const* const* argv) {
         // DIVIDE
         // devide query on parts almost similar length
         std::vector<std::vector<seqan3::dna5>> parts;
+        std::vector<std::vector<size_t>> parts_begin_positions;
         size_t k = errors_num + 1;
         size_t length = query.size() / k;
         size_t remain = query.size() % k;
@@ -97,20 +98,32 @@ int main(int argc, char const* const* argv) {
             else end += length;
 
             parts.push_back(std::vector<seqan3::dna5>(query.begin() + begin, query.begin() + end));
+            
+            parts_begin_positions.push_back(begin);
 
             begin = end;
         }
         // 
+        for (auto& part : parts) {
+            seqan3::debug_stream<<part<<" ";
+        }
+
+        for (auto& pos : parts_begin_positions) {
+            std::cout<<pos<<" ";
+        }
         // SEARCH
         for (auto& p : parts) {
             //seqan3::debug_stream<<p<<"\n";
-            for (auto && result : search(p, index, cfg)) {
-                seqan3::debug_stream << result.reference_begin_position()<< '\n';
+            for (auto && position : search(p, index, cfg)) {
+                //seqan3::debug_stream << result.reference_begin_position()<< '\n';
                 /*
                 for (auto& position : result.reference_begin_position ()) {
                 seqan3::debug_stream << position << '\n';
                 }
                 */
+               size_t found_errors = errors_num;
+               
+
             }
         }
     
