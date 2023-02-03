@@ -172,7 +172,7 @@ int main(int argc, char const* const* argv) {
                 */
                //seqan3::debug_stream << position.reference_begin_position()<< '\n';
                 //size_t pos = reinterpret_cast<size_t const*>(position);
-                verify(query, reference, position.reference_begin_position(), parts[p].size(), parts_begin_positions[p], errors_num, query.size());
+                verify(query, reference, position.reference_begin_position(), parts[p].size(), parts_begin_positions[p], query.size(), errors_num);
 
             }
         }
