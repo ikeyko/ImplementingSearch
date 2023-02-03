@@ -7,11 +7,47 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
+void verify (std::vector<seqan3::dna5> const* query, std::vector<seqan3::dna5> const* text, size_t text_position, size_t pattern_size, size_t pattern_position, size_t errors ) {
+    // for simplicity we search only substitutions
+    //size_t i = pattern_position;
+    //size_t j = text_position;
+    //size_t j_max = text_position + query.size() - pattern_position - 1;
+    size_t j = text_position - pattern_position;
+    size_t i = 0;
+    size_t query_size = query.size();
+    size_t err = 0;
+
+    // check right side from pattern && j < text_position + pattern_position
+    while (err <= errors  &&  i < pattern_position) {
+        if (text[j] != query[i]) ++err;
+        i++;
+        j++;
+    }
+    j += pattern_size;
+    i += pattern_size;
+    // check right side from pattern && j < text_position - pattern_position + query_size
+    while (err <= errors && i < query_size) {
+        if (text[j] != query[i]) ++err;
+        i++;
+        j++;        
+    }
+
+    if (err <= errors ) std::cout<<(text_position - pattern_position)<<" with "<< err <<" errors\n";
+
+
+}
+
+
+
+
 int main(int argc, char const* const* argv) {
     seqan3::argument_parser parser{"fmindex_pigeon_search", argc, argv, seqan3::update_notifications::off};
 
     parser.info.author = "SeqAn-Team";
     parser.info.version = "1.0.0";
+
+    auto reference_file = std::filesystem::path{};
+    parser.add_option(reference_file, '\0', "reference", "path to the reference file");
 
     auto index_path = std::filesystem::path{};
     parser.add_option(index_path, '\0', "index", "path to the query file");
@@ -35,7 +71,18 @@ int main(int argc, char const* const* argv) {
     }
 
     // loading our files
+    auto reference_stream = seqan3::sequence_file_input{reference_file};
     auto query_stream     = seqan3::sequence_file_input{query_file};
+
+    // read reference into memory
+    // Attention: we are concatenating all sequences into one big combined sequence
+    //            this is done to simplify the implementation of suffix_arrays
+    std::vector<seqan3::dna5> reference;
+    for (auto& record : reference_stream) {
+        auto r = record.sequence();
+        reference.insert(reference.end(), r.begin(), r.end());
+    }
+
 
     // read query into memory
     std::vector<std::vector<seqan3::dna5>> queries;
@@ -112,17 +159,18 @@ int main(int argc, char const* const* argv) {
             std::cout<<pos<<" ";
         }
         // SEARCH
-        for (auto& p : parts) {
+        for (size_t p = 0; p < parts.size(); ++p) {
             //seqan3::debug_stream<<p<<"\n";
-            for (auto && position : search(p, index, cfg)) {
+            for (auto && position : search(parts[p], index, cfg)) {
                 //seqan3::debug_stream << result.reference_begin_position()<< '\n';
                 /*
                 for (auto& position : result.reference_begin_position ()) {
                 seqan3::debug_stream << position << '\n';
                 }
                 */
-               size_t found_errors = errors_num;
                
+
+                verify(query, reference, position, parts[p].size(), parts_begin_positions[p], errors_num);
 
             }
         }
