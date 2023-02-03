@@ -7,14 +7,15 @@
 #include <seqan3/search/fm_index/fm_index.hpp>
 #include <seqan3/search/search.hpp>
 
-void verify (std::vector<seqan3::dna5> const* query, std::vector<seqan3::dna5> const* text, size_t text_position, size_t pattern_size, size_t pattern_position, size_t errors ) {
+void verify (std::vector<seqan3::dna5> const* query, std::vector<seqan3::dna5> const* text, 
+            size_t text_position, size_t pattern_size, size_t pattern_position, size_t query_size, size_t errors ) {
     // for simplicity we search only substitutions
     //size_t i = pattern_position;
     //size_t j = text_position;
     //size_t j_max = text_position + query.size() - pattern_position - 1;
     size_t j = text_position - pattern_position;
     size_t i = 0;
-    size_t query_size = query.size();
+    //size_t query_size = query.size();
     size_t err = 0;
 
     // check right side from pattern && j < text_position + pattern_position
@@ -170,7 +171,7 @@ int main(int argc, char const* const* argv) {
                 */
                
 
-                verify(query, reference, position, parts[p].size(), parts_begin_positions[p], errors_num);
+                verify(query, reference, position, parts[p].size(), parts_begin_positions[p], errors_num, query.aize());
 
             }
         }
