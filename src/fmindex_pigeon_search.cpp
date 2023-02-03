@@ -79,9 +79,10 @@ int main(int argc, char const* const* argv) {
 
     for (auto& query : queries) {
         // save positions of query cuts
-        int *cuts = new int[errors_num + 2];
-        cuts[0] = 0;
+        std::vector<>int cuts (errors_num + 2, 0);
         int m = query.size();
+
+        /*
         int rest_len = m - m / (error_num + 1);
         for (k = 1; k <= errors_num + 1; ++k) {
             //first position
@@ -92,10 +93,19 @@ int main(int argc, char const* const* argv) {
                 rest_len = rest_len - part_len;               
             }        
         }
+        */
+
+       //devide query on parts almost similar length
+       for (k = 1; k <= errors_num; ++k) {
+            cuts[k] = cuts[k-1] + m / (errors_num + 1);
+       }
+       cuts[errors_num + 1] = m - 1; //last position of rest cut
+
     for (auto& cut : cuts) {
         std::cout<<cut<<" ";
     }
 
+    
 
     }
 
