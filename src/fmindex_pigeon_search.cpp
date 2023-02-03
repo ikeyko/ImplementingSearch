@@ -78,34 +78,50 @@ int main(int argc, char const* const* argv) {
     }
 
     for (auto& query : queries) {
+        // DIVIDE
+        // devide query on parts almost similar length
         // save positions of query cuts
+        /*
         std::vector<int> cuts (errors_num + 2, 0);
         int m = query.size();
         int part_len = m / (errors_num + 1);
-        /*
-        int rest_len = m - m / (error_num + 1);
-        for (k = 1; k <= errors_num + 1; ++k) {
-            //first position
-            if (k == errors_num + 1) cuts[k] = m;
-            else {
-                int part_len = rest_len / (errors_num + 1 - k);
-                cuts[k] = cuts[k - 1] + part_len;
-                rest_len = rest_len - part_len;               
-            }        
+
+        for (unsigned i = 1; i <= errors_num; ++i) {
+                cuts[i] = cuts[i - 1] + part_len;
+        }
+        cuts[errors_num + 1] = m - 1; //last position of rest cut
+
+        for (int p = 0; p <= errors_num; ++p) {
+
         }
         */
+        std::vector<std::vector<seqan3::dna5>> parts;
+        size_t k = errors_num + 1;
+        size_t length = query.size() / k;
+        size_t remain = query.size() % k;
 
-       //devide query on parts almost similar length
-       for (unsigned i = 1; i <= errors_num; ++i) {
-            cuts[i] = cuts[i - 1] + part_len;
-       }
-       cuts[errors_num + 1] = m - 1; //last position of rest cut
+        size_t begin = 0;
+        size_t end = 0;
 
-        for (auto& cut : cuts) {
-            std::cout<<cut<<" ";
+        for (size_t i = 0; i < std::min(k, query.size()); ++i)
+        {
+            if (remain > 0) {
+                end += length + remain;
+                remain--;
+                }
+            else end += length;
+
+            parts.push_back(std::vector<seqan3::dna5>(query.begin() + begin, query.begin() + end));
+
+            begin = end;
         }
+        // 
 
+        for (auto& p : parts) {
+            seqan3::debug_stream<<p<<"\n";
+        }
     
+
 
     }
 
