@@ -105,7 +105,8 @@ int main(int argc, char const* const* argv) {
         for (auto& p : parts) {
             //seqan3::debug_stream<<p<<"\n";
             for (auto && result : search(p, index, cfg)) {
-                seqan3::debug_stream << result.reference_pos << '\n';
+                for (auto& position : result.reference_begin_position ())
+                seqan3::debug_stream << position << '\n';
             }
         }
     
