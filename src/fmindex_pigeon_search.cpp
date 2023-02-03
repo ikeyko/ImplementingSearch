@@ -80,21 +80,6 @@ int main(int argc, char const* const* argv) {
     for (auto& query : queries) {
         // DIVIDE
         // devide query on parts almost similar length
-        // save positions of query cuts
-        /*
-        std::vector<int> cuts (errors_num + 2, 0);
-        int m = query.size();
-        int part_len = m / (errors_num + 1);
-
-        for (unsigned i = 1; i <= errors_num; ++i) {
-                cuts[i] = cuts[i - 1] + part_len;
-        }
-        cuts[errors_num + 1] = m - 1; //last position of rest cut
-
-        for (int p = 0; p <= errors_num; ++p) {
-
-        }
-        */
         std::vector<std::vector<seqan3::dna5>> parts;
         size_t k = errors_num + 1;
         size_t length = query.size() / k;
@@ -116,9 +101,12 @@ int main(int argc, char const* const* argv) {
             begin = end;
         }
         // 
-
+        // SEARCH
         for (auto& p : parts) {
-            seqan3::debug_stream<<p<<"\n";
+            //seqan3::debug_stream<<p<<"\n";
+            for (auto && result : search(p, index, cfg)) {
+                seqan3::debug_stream << result.reference_pos << '\n';
+            }
         }
     
 
