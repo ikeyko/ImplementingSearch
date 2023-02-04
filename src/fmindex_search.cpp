@@ -75,7 +75,7 @@ int main(int argc, char const* const* argv) {
     //!TODO here adjust the number of searches
     // adjust queries vector size
     std::vector<std::vector<seqan3::dna5>> queries_temp; 
-    if ( queries.size() > queries_size ) {
+    if ( queries.size() >= queries_size ) {
         queries.resize(queries_size); 
     } else {
         queries_temp.insert(queries_temp.end(), queries.begin(), queries.end());
