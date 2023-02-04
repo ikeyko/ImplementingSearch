@@ -52,7 +52,7 @@ int main(int argc, char const* const* argv) {
     }
 
     if ( ! (queries_size > 0 && queries_size <= 1000000 ) )  queries_size = queries_size_default;
-    if ( ! (errors_num >= 0 && errors_num <= 2 ) )  {
+    if ( ! (errors_num >= 0 && errors_num <= 3 ) )  {
         errors_num = errors_num_default;
         seqan3::debug_stream << "This number of errors is not supported. Setting by defaul = 0\n";
     }
