@@ -34,7 +34,7 @@ void verify (std::vector<seqan3::dna5> const &query, std::vector<seqan3::dna5> c
         j++;        
     }
 
-    //if (err <= errors ) std::cout<<(text_position - pattern_position)<<" with "<< err <<" errors\n";
+    if (err <= errors ) std::cout<<(text_position - pattern_position)<<" with "<< err <<" errors\n";
 
 
 }
@@ -78,7 +78,6 @@ int main(int argc, char const* const* argv) {
 
     // read reference into memory
     // Attention: we are concatenating all sequences into one big combined sequence
-    //            this is done to simplify the implementation of suffix_arrays
     std::vector<seqan3::dna5> reference;
     for (auto& record : reference_stream) {
         auto r = record.sequence();
@@ -157,6 +156,7 @@ int main(int argc, char const* const* argv) {
 
             begin = end;
         }
+        seqan3::debug_stream<<query<<":\n";
         // 
         /*
         for (auto& part : parts) {
@@ -185,7 +185,7 @@ int main(int argc, char const* const* argv) {
                 
 
             }
-            //std::cout<<"\n";
+            std::cout<<"\n";
         }
     
 
