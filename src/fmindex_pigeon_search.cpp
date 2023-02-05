@@ -10,6 +10,7 @@
 
 using namespace std::chrono;
 
+// The function supports substitution errors only
 void verify (std::vector<seqan3::dna5> const &query, std::vector<seqan3::dna5> const &text, 
             size_t text_position, size_t pattern_size, size_t pattern_position, 
             size_t query_size, size_t errors ) {
@@ -157,33 +158,15 @@ int main(int argc, char const* const* argv) {
             begin = end;
         }
         seqan3::debug_stream<<query<<":\n";
-        // 
-        /*
-        for (auto& part : parts) {
-            seqan3::debug_stream<<part<<" ";
-        }
-
-        for (auto& pos : parts_begin_positions) {
-            std::cout<<pos<<" ";
-        }
-        */
 
         // SEARCH
         for (size_t p = 0; p < parts.size(); ++p) {
             //seqan3::debug_stream<<p<<"\n";
             for (auto && position : search(parts[p], index, cfg)) {
-                //seqan3::debug_stream << result.reference_begin_position()<< '\n';
-                /*
-                for (auto& position : result.reference_begin_position ()) {
-                seqan3::debug_stream << position << '\n';
-                }
-                */
-               //seqan3::debug_stream << position.reference_begin_position()<< '\n';
-                //size_t pos = reinterpret_cast<size_t const*>(position);
+
                 verify(query, reference, position.reference_begin_position(), parts[p].size(), 
                        parts_begin_positions[p], query.size(), errors_num);
                 
-
             }
             std::cout<<"\n";
         }
